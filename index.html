@@ -6,9 +6,12 @@
 <title>LYRA — Research Peptides. Delivered.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 // Robust Leaflet loader with fallbacks
 window.__leafletReady = false;
@@ -76,114 +79,135 @@ window.addEventListener('load', verifyLeaflet);
     --line-strong:#3a3a3e;
     --gold:#e3b055;
     --gold-2:#f0c577;
+    --tan:#c9a268;
+    --tan-2:#dab37e;
     --emerald:#3d6b50;
     --emerald-2:#5a9677;
     --blood:#a04a44;
     --card-bg:#0d0e10;
+    --product-bg:#0d0e10;
     --shadow:0 30px 60px rgba(0,0,0,.7);
     --grid-line:rgba(255,255,248,.04);
   }
   [data-theme="light"]{
-    --bg:#f3f4ef;
-    --bg-2:#e9ebe3;
-    --bg-3:#dee0d6;
-    --ink:#0e1824;
-    --ink-dim:#3a4554;
-    --ink-faint:#7a8088;
-    --line:#d4d6cc;
-    --line-strong:#b8bcaf;
+    --bg:#fafaf8;
+    --bg-2:#ffffff;
+    --bg-3:#f1f1ef;
+    --ink:#0d0e10;
+    --ink-dim:#55554f;
+    --ink-faint:#8a8a86;
+    --line:#e8e8e4;
+    --line-strong:#cfcfca;
     --gold:#a87148;
     --gold-2:#8a5a35;
+    --tan:#a87148;
+    --tan-2:#c89060;
     --emerald:#2a5540;
     --emerald-2:#3d6b50;
     --blood:#7a2e28;
-    --card-bg:#e9ebe3;
-    --shadow:0 20px 40px rgba(14,24,36,.10);
-    --grid-line:rgba(14,24,36,.05);
+    --card-bg:#ffffff;
+    --product-bg:#ffffff;
+    --shadow:0 20px 40px rgba(13,14,16,.06);
+    --grid-line:rgba(13,14,16,.035);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--bg);color:var(--ink);font-family:"Fraunces", serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth;transition:background .4s ease, color .4s ease}
-  body{overflow-x:hidden;font-size:17px;line-height:1.5}
+  html,body{background:var(--bg);color:var(--ink);font-family:"Inter", system-ui, -apple-system, sans-serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth;transition:background .4s ease, color .4s ease;font-feature-settings:"ss01","cv11"}
+  body{overflow-x:hidden;font-size:16px;line-height:1.55;font-weight:400}
   button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
   input,select,textarea{font:inherit;color:inherit}
 
-  .mono{font-family:"JetBrains Mono", ui-monospace, monospace}
+  h1,h2,h3,h4{font-family:"Satoshi", "Inter", sans-serif;font-feature-settings:"ss01"}
+  .mono{font-family:"Inter", monospace;font-variant-numeric:tabular-nums}
+  .micro{font-family:"Inter", sans-serif;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
 
   /* ===== AGE GATE ===== */
   .gate{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;padding:2rem}
   .gate-inner{max-width:540px;text-align:center}
-  .gate-mark{font-family:"JetBrains Mono",monospace;font-size:.75rem;letter-spacing:.4em;color:var(--gold);margin-bottom:2rem;font-weight:500}
-  .gate h1{font-weight:300;font-size:clamp(2.2rem,5vw,3.2rem);line-height:1.1;margin-bottom:1.2rem;font-style:italic;color:var(--ink)}
-  .gate h1 em{font-weight:600;font-style:normal;color:var(--gold)}
-  .gate p{color:var(--ink-dim);font-size:.95rem;line-height:1.7;margin-bottom:2.2rem;font-family:"JetBrains Mono",monospace;font-weight:400}
-  .gate-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
-  .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.8rem;font-family:"JetBrains Mono",monospace;font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;font-weight:500;border:1px solid var(--line-strong);background:transparent;transition:all .3s;cursor:pointer;color:var(--ink)}
-  .btn:hover{border-color:var(--gold);color:var(--gold)}
-  .btn.primary{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
-  .btn.primary:hover{background:var(--gold-2);color:var(--bg);border-color:var(--gold-2)}
-  .btn.ghost{color:var(--ink-dim)}
+  .gate-mark{font-family:"Inter",sans-serif;font-size:.75rem;letter-spacing:.4em;color:var(--gold);margin-bottom:2rem;font-weight:500}
+  .gate h1{font-weight:500;font-size:clamp(2rem,4.5vw,2.9rem);line-height:1.1;margin-bottom:1.4rem;letter-spacing:-.025em;color:var(--ink)}
+  .gate h1 em{font-weight:700;font-style:normal;color:var(--gold)}
+  .gate p{color:var(--ink-dim);font-size:.95rem;line-height:1.7;margin-bottom:2.4rem;font-family:"Inter",sans-serif;font-weight:400;max-width:440px;margin-left:auto;margin-right:auto}
+  .gate-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;padding:1rem 1.8rem;font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;border:1px solid var(--line-strong);background:transparent;transition:all .25s;cursor:pointer;color:var(--ink);border-radius:0}
+  .btn:hover{border-color:var(--ink);color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+  .btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+  .btn.primary:hover{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+  .btn.ghost{color:var(--ink-dim);border-color:var(--line)}
+  .btn.gold{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+  .btn.gold:hover{background:var(--gold-2);border-color:var(--gold-2);color:var(--bg)}
 
   /* ===== HEADER ===== */
-  header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--bg) 85%, transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-  .nav-inner{max-width:1400px;margin:0 auto;padding:1.1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+  header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1480px;margin:0 auto;padding:1.15rem 2.2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
   .brand{display:flex;align-items:center;gap:.55rem;cursor:pointer}
-  .brand-word{font-family:"Cormorant Garamond", "Fraunces", serif;font-weight:400;font-size:1.85rem;letter-spacing:.18em;color:var(--ink);line-height:1;padding-top:2px}
-  .brand-word.brand-large{font-size:2.8rem;letter-spacing:.2em}
-  .brand-star{width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-bottom:6px}
+  .brand-word{font-family:"Satoshi","Inter",sans-serif;font-weight:500;font-size:1.55rem;letter-spacing:.22em;color:var(--ink);line-height:1}
+  .brand-word.brand-large{font-size:2.4rem;letter-spacing:.24em}
+  .brand-star{width:12px;height:12px;color:var(--gold);flex-shrink:0;margin-bottom:4px}
   /* Real logo image (themed via JS) */
-  .brand-logo{height:34px;width:auto;display:block}
-  .brand-logo.brand-large{height:72px}
-  nav.links{display:flex;gap:2.2rem;font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);font-weight:500}
+  .brand-logo{height:30px;width:auto;display:block}
+  .brand-logo.brand-large{height:64px}
+  nav.links{display:flex;gap:2.4rem;font-family:"Inter",sans-serif;font-size:.78rem;letter-spacing:.04em;color:var(--ink-dim);font-weight:500}
   nav.links a{cursor:pointer;transition:color .2s;position:relative}
-  nav.links a:hover,nav.links a.active{color:var(--gold)}
-  .nav-right{display:flex;align-items:center;gap:.8rem}
-  .theme-toggle{display:flex;border:1px solid var(--line-strong);padding:3px;gap:2px}
-  .theme-toggle button{width:30px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--ink-dim);transition:all .2s;border-radius:2px}
+  nav.links a:hover,nav.links a.active{color:var(--ink)}
+  nav.links a.active::after{content:"";position:absolute;left:0;right:0;bottom:-22px;height:1px;background:var(--gold)}
+  .nav-right{display:flex;align-items:center;gap:.6rem}
+  .theme-toggle{display:flex;border:1px solid var(--line);padding:2px;gap:0;background:var(--bg-2)}
+  .theme-toggle button{width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--ink-faint);transition:all .2s}
   .theme-toggle button.active{background:var(--ink);color:var(--bg)}
-  .theme-toggle button:hover{color:var(--gold)}
+  .theme-toggle button:hover{color:var(--ink)}
   .theme-toggle button.active:hover{color:var(--bg)}
-  .cart-btn{position:relative;display:flex;align-items:center;gap:.5rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;padding:.6rem 1rem;border:1px solid var(--line-strong);transition:all .2s;font-weight:600;color:var(--ink)}
-  .cart-btn:hover{border-color:var(--gold);color:var(--gold)}
-  .cart-count{background:var(--gold);color:var(--bg);padding:.15rem .5rem;font-size:.65rem;font-weight:700;min-width:20px;text-align:center}
+  .cart-btn{position:relative;display:flex;align-items:center;gap:.55rem;font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;padding:.65rem 1rem;border:1px solid var(--line-strong);transition:all .2s;font-weight:600;color:var(--ink);background:transparent}
+  .cart-btn:hover{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+  .cart-btn:hover .cart-count{background:var(--gold);color:var(--bg)}
+  .cart-count{background:var(--ink);color:var(--bg);padding:.15rem .45rem;font-size:.65rem;font-weight:700;min-width:20px;text-align:center;line-height:1.4;transition:all .2s}
   @media(max-width:880px){nav.links{display:none}}
 
   /* ===== HERO ===== */
-  .hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero{position:relative;min-height:90vh;display:flex;align-items:center;overflow:hidden;border-bottom:1px solid var(--line)}
   .hero-bg{position:absolute;inset:0;background:
-    radial-gradient(ellipse at 20% 30%, color-mix(in srgb, var(--emerald) 30%, transparent), transparent 50%),
-    radial-gradient(ellipse at 80% 70%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 55%);
+    radial-gradient(ellipse at 78% 50%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 55%),
+    radial-gradient(ellipse at 18% 90%, color-mix(in srgb, var(--emerald) 10%, transparent), transparent 50%);
     z-index:0;transition:background .4s ease}
   .hero-grid{position:absolute;inset:0;z-index:1;pointer-events:none;
     background-image:
       linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
       linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size:80px 80px}
-  .hero-inner{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1.3fr 1fr;gap:4rem;align-items:center;width:100%}
-  @media(max-width:960px){.hero-inner{grid-template-columns:1fr;gap:2rem}}
-  .hero-eyebrow{display:flex;align-items:center;gap:.8rem;font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;font-weight:600}
-  .hero-eyebrow::before{content:"";width:40px;height:1px;background:var(--gold)}
-  .hero h1{font-weight:300;font-size:clamp(3rem,7vw,5.6rem);line-height:1;letter-spacing:-.02em;margin-bottom:1.8rem;color:var(--ink)}
-  .hero h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+    background-size:96px 96px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+  .hero-inner{position:relative;z-index:2;max-width:1480px;margin:0 auto;padding:5rem 2.2rem;display:grid;grid-template-columns:1.25fr 1fr;gap:5rem;align-items:center;width:100%}
+  @media(max-width:960px){.hero-inner{grid-template-columns:1fr;gap:2.5rem;padding:3rem 1.5rem}}
+  .hero-eyebrow{display:flex;align-items:center;gap:.9rem;font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:2.2rem;font-weight:600}
+  .hero-eyebrow::before{content:"";width:48px;height:1px;background:var(--gold)}
+  .hero h1{font-family:"Satoshi","Inter",sans-serif;font-weight:500;font-size:clamp(2.6rem,6.4vw,5.4rem);line-height:1;letter-spacing:-.04em;margin-bottom:1.8rem;color:var(--ink)}
+  .hero h1 em{font-style:normal;font-weight:700;color:var(--ink);position:relative;display:inline-block}
+  .hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.05em;height:.32em;background:color-mix(in srgb,var(--gold) 35%,transparent);z-index:-1;pointer-events:none}
   .hero h1 .line{display:block}
-  .hero-sub{font-family:"JetBrains Mono",monospace;font-weight:400;color:var(--ink-dim);font-size:1rem;line-height:1.75;max-width:520px;margin-bottom:2.5rem}
-  .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap}
-  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line);max-width:560px}
-  .stat-num{font-size:2.2rem;font-weight:400;color:var(--gold);line-height:1}
-  .stat-label{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-top:.6rem;font-weight:500}
+  .hero-sub{font-family:"Inter",sans-serif;font-weight:400;color:var(--ink-dim);font-size:1.02rem;line-height:1.7;max-width:520px;margin-bottom:2.6rem}
+  .hero-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4.5rem;padding-top:2rem;border-top:1px solid var(--line);max-width:580px}
+  .stat-num{font-family:"Satoshi","Inter",sans-serif;font-size:2rem;font-weight:600;color:var(--ink);line-height:1;letter-spacing:-.02em}
+  .stat-num em{color:var(--gold);font-style:normal;font-weight:600}
+  .stat-label{font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-top:.55rem;font-weight:500}
 
-  .hero-visual{position:relative;aspect-ratio:3/4;max-width:420px;margin-left:auto}
-  .hero-vial{width:100%;height:100%;filter:drop-shadow(var(--shadow))}
+  .hero-visual{position:relative;aspect-ratio:3/4;max-width:520px;margin-left:auto;display:flex;align-items:center;justify-content:center;width:100%;overflow:visible}
+  /* Wireframe is ~55% larger than the vial, centered on it, behind the vial.
+     Position-extended beyond hero-visual so its edges aren't bound to the column. */
+  .anomaly-canvas{position:absolute;width:180%;height:180%;top:-40%;left:-40%;z-index:0;pointer-events:none;overflow:visible}
+  .anomaly-canvas canvas{display:block;width:100%!important;height:100%!important}
+  .hero-mock{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:117%;max-width:none;height:auto;z-index:2;filter:drop-shadow(0 40px 80px rgba(0,0,0,.6)) drop-shadow(0 0 30px rgba(227,176,85,.18));pointer-events:none}
+  [data-theme="light"] .hero-mock{filter:drop-shadow(0 40px 80px rgba(13,14,16,.18))}
+  .hero-vial{width:100%;height:100%;filter:drop-shadow(0 30px 60px rgba(0,0,0,.5))}
   .hero-visual .vial{width:100%;height:100%}
   .hero-visual .vial svg,.hero-visual svg.hero-vial{width:100%;height:100%}
-  .hero-badge{position:absolute;top:2rem;right:0;background:var(--bg-3);border:1px solid var(--line-strong);padding:.9rem 1.2rem;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
-  .hero-badge span{display:block;color:var(--ink);font-size:.95rem;letter-spacing:.05em;text-transform:none;margin-top:.3rem;font-family:"Fraunces",serif;font-weight:500}
+  .hero-visual .vial-img{width:100%;position:relative;z-index:1;filter:drop-shadow(0 30px 60px rgba(0,0,0,.55))}
+  .hero-badge{position:absolute;top:1.5rem;right:-.5rem;background:var(--bg);border:1px solid var(--line-strong);padding:.85rem 1.1rem;font-family:"Inter",sans-serif;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;z-index:3}
+  .hero-badge span{display:block;color:var(--ink);font-size:.95rem;letter-spacing:.02em;text-transform:none;margin-top:.3rem;font-family:"Satoshi","Inter",sans-serif;font-weight:600}
 
   /* ===== TICKER ===== */
   .ticker{border-bottom:1px solid var(--line);overflow:hidden;background:var(--bg-2)}
-  .ticker-inner{display:flex;gap:4rem;padding:1rem 0;animation:scroll 40s linear infinite;white-space:nowrap}
-  .ticker span{font-family:"JetBrains Mono",monospace;font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-dim);display:flex;align-items:center;gap:2rem;font-weight:500}
+  .ticker-inner{display:flex;gap:4rem;padding:1.1rem 0;animation:scroll 50s linear infinite;white-space:nowrap}
+  .ticker span{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-dim);display:flex;align-items:center;gap:2.5rem;font-weight:500}
   .ticker span::after{content:"✦";color:var(--gold)}
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -191,63 +215,66 @@ window.addEventListener('load', verifyLeaflet);
   .features{max-width:1400px;margin:0 auto;padding:5rem 2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
   @media(max-width:880px){.features{grid-template-columns:repeat(2,1fr)}}
   .feat{background:var(--bg);padding:2.2rem 2rem}
-  .feat-icon{width:32px;height:32px;color:var(--gold);margin-bottom:1.2rem}
-  .feat h3{font-weight:500;font-size:1.2rem;margin-bottom:.6rem;color:var(--ink)}
-  .feat p{font-family:"JetBrains Mono",monospace;font-size:.8rem;line-height:1.65;color:var(--ink-dim);font-weight:400}
+  .feat-icon{width:24px;height:24px;color:var(--gold);margin-bottom:1.4rem;stroke-width:1.25}
+  .feat h3{font-family:"Satoshi","Inter",sans-serif;font-weight:600;font-size:1.05rem;margin-bottom:.5rem;color:var(--ink);letter-spacing:-.005em}
+  .feat p{font-family:"Inter",sans-serif;font-size:.85rem;line-height:1.6;color:var(--ink-dim);font-weight:400}
 
   /* ===== SECTION HEAD ===== */
-  .sec-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:3rem;flex-wrap:wrap;gap:1rem}
-  .sec-head .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.75rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600}
-  .sec-head h2{font-weight:300;font-size:clamp(2.2rem,4.5vw,3.6rem);line-height:1.05;letter-spacing:-.01em;color:var(--ink)}
-  .sec-head h2 em{font-style:italic;color:var(--gold);font-weight:400}
-  .sec-head .sub{font-family:"JetBrains Mono",monospace;font-size:.88rem;color:var(--ink-dim);max-width:380px;line-height:1.65;text-align:right;font-weight:400}
+  .sec-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:3.5rem;flex-wrap:wrap;gap:1.5rem}
+  .sec-head .eyebrow{font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;font-weight:600;display:flex;align-items:center;gap:.7rem}
+  .sec-head .eyebrow::before{content:"";width:32px;height:1px;background:var(--gold)}
+  .sec-head h2{font-family:"Satoshi","Inter",sans-serif;font-weight:500;font-size:clamp(2rem,4vw,3.4rem);line-height:1.05;letter-spacing:-.03em;color:var(--ink);max-width:720px}
+  .sec-head h2 em{font-style:normal;color:var(--ink);font-weight:700;background:linear-gradient(transparent 65%,color-mix(in srgb,var(--gold) 32%,transparent) 65%);padding:0 .05em}
+  .sec-head .sub{font-family:"Inter",sans-serif;font-size:.88rem;color:var(--ink-dim);max-width:340px;line-height:1.6;text-align:right;font-weight:400}
   @media(max-width:880px){.sec-head .sub{text-align:left}}
 
   /* ===== SHOP ===== */
-  .shop{max-width:1400px;margin:0 auto;padding:4rem 2rem 6rem}
+  .shop{max-width:1480px;margin:0 auto;padding:5rem 2.2rem 7rem}
 
-  .filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--line)}
-  .chip{padding:.65rem 1.2rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--line-strong);color:var(--ink-dim);transition:all .2s;cursor:pointer;background:transparent;font-weight:500}
+  .filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:3rem;padding-bottom:1.8rem;border-bottom:1px solid var(--line)}
+  .chip{padding:.6rem 1.1rem;font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line);color:var(--ink-dim);transition:all .2s;cursor:pointer;background:transparent;font-weight:600}
   .chip:hover{color:var(--ink);border-color:var(--ink-dim)}
   .chip.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem}
-  .card{background:var(--card-bg);border:1px solid var(--line);display:flex;flex-direction:column;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
-  .card:hover{border-color:var(--gold);transform:translateY(-4px)}
-  .card-img{aspect-ratio:1/1;position:relative;overflow:hidden;background:var(--bg-3);display:flex;align-items:center;justify-content:center}
-  .card-img svg{width:62%;height:62%;transition:transform .5s}
-  .card-img .vial{width:100%;height:100%;transition:transform .5s}
-  .card:hover .card-img svg{transform:scale(1.06) rotate(-2deg)}
-  .card:hover .card-img .vial{transform:scale(1.04)}
-  .card-tag{position:absolute;top:.9rem;left:.9rem;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;padding:.35rem .7rem;background:color-mix(in srgb, var(--bg) 90%, transparent);color:var(--gold);border:1px solid var(--gold);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem}
+  .card{background:var(--card-bg);border:1px solid var(--line);display:flex;flex-direction:column;cursor:pointer;transition:border-color .25s, transform .25s, box-shadow .25s;position:relative;overflow:hidden}
+  .card:hover{border-color:var(--ink-faint);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.18)}
+  .card-img{aspect-ratio:1/1;position:relative;overflow:hidden;background:var(--product-bg);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+  [data-theme="dark"] .card-img{background:
+    radial-gradient(ellipse 60% 70% at 50% 55%, color-mix(in srgb, var(--gold) 14%, transparent) 0%, transparent 75%),
+    linear-gradient(180deg, var(--bg-3), var(--bg-2))}
+  .card-img .vial-img{width:100%;height:100%;transition:transform .55s cubic-bezier(.22,.61,.36,1);filter:drop-shadow(0 18px 30px rgba(0,0,0,.35))}
+  .card:hover .card-img .vial-img{transform:scale(1.04) translateY(-2px)}
+  .card-tag{position:absolute;top:.9rem;left:.9rem;font-family:"Inter",sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;padding:.3rem .6rem;background:var(--bg);color:var(--gold);border:1px solid var(--gold);font-weight:700;z-index:2}
   .card-body{padding:1.5rem;display:flex;flex-direction:column;gap:.4rem}
-  .card-cat{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);font-weight:500}
-  .card-name{font-size:1.4rem;font-weight:500;letter-spacing:.01em;color:var(--ink)}
-  .card-desc{font-family:"JetBrains Mono",monospace;font-size:.78rem;line-height:1.55;color:var(--ink-dim);margin-top:.3rem;min-height:2.4rem;font-weight:400}
+  .card-cat{font-family:"Inter",sans-serif;font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+  .card-name{font-family:"Satoshi","Inter",sans-serif;font-size:1.25rem;font-weight:600;letter-spacing:-.015em;color:var(--ink);line-height:1.2}
+  .card-desc{font-family:"Inter",sans-serif;font-size:.82rem;line-height:1.55;color:var(--ink-dim);margin-top:.3rem;min-height:2.4rem;font-weight:400}
   .card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--line)}
-  .price{font-size:1.4rem;color:var(--gold);font-weight:600}
-  .price small{color:var(--ink-faint);font-size:.72rem;font-family:"JetBrains Mono",monospace;margin-left:.3rem;font-weight:500}
-  .add{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);padding:.55rem 1rem;border:1px solid var(--line-strong);transition:all .2s;font-weight:600}
-  .add:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+  .price{font-family:"Satoshi","Inter",sans-serif;font-size:1.35rem;color:var(--ink);font-weight:600;letter-spacing:-.01em}
+  .price small{color:var(--ink-faint);font-size:.7rem;font-family:"Inter",sans-serif;margin-left:.3rem;font-weight:500}
+  .add{font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);padding:.6rem 1rem;border:1px solid var(--line-strong);transition:all .2s;font-weight:600;background:transparent}
+  .add:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 
   /* ===== PROMO BAND ===== */
-  .band{background:linear-gradient(90deg, var(--bg-3), var(--bg-2));border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:3.5rem 2rem;text-align:center}
-  .band h3{font-weight:300;font-style:italic;font-size:clamp(1.6rem,3.5vw,2.5rem);color:var(--ink);line-height:1.2}
-  .band h3 em{color:var(--gold);font-style:normal;font-weight:500}
-  .band p{font-family:"JetBrains Mono",monospace;font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);margin-top:1rem;font-weight:500}
+  .band{background:linear-gradient(180deg, var(--bg-2), color-mix(in srgb,var(--gold) 6%,var(--bg-2)));border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:4rem 2rem;text-align:center;position:relative;overflow:hidden}
+  .band::before{content:"✦";position:absolute;top:1.2rem;left:50%;transform:translateX(-50%);color:var(--gold);font-size:1rem;opacity:.6}
+  .band h3{font-family:"Satoshi","Inter",sans-serif;font-weight:500;font-size:clamp(1.6rem,3.5vw,2.4rem);color:var(--ink);line-height:1.2;letter-spacing:-.025em;max-width:760px;margin:0 auto}
+  .band h3 em{color:var(--ink);font-style:normal;font-weight:700;background:linear-gradient(transparent 65%,color-mix(in srgb,var(--gold) 35%,transparent) 65%);padding:0 .1em}
+  .band p{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-top:1.2rem;font-weight:600}
 
   /* ===== TESTIMONIALS ===== */
-  .testimonials{max-width:1400px;margin:0 auto;padding:5rem 2rem 6rem}
-  .test-featured{background:var(--bg-2);border:1px solid var(--line);padding:3rem;margin-bottom:3rem;display:grid;grid-template-columns:280px 1fr;gap:3rem;align-items:center}
+  .testimonials{max-width:1480px;margin:0 auto;padding:5rem 2.2rem 7rem}
+  .test-featured{background:var(--bg-2);border:1px solid var(--line);padding:3.5rem;margin-bottom:3rem;display:grid;grid-template-columns:300px 1fr;gap:3.5rem;align-items:center}
   @media(max-width:880px){.test-featured{grid-template-columns:1fr;padding:2rem;gap:2rem}}
   .test-featured-img{aspect-ratio:1/1;overflow:hidden;border:1px solid var(--line-strong);position:relative}
   .test-featured-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.02)}
   .test-featured-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--bg) 40%, transparent))}
-  .test-featured-quote{font-style:italic;font-size:clamp(1.4rem, 2.4vw, 1.9rem);line-height:1.4;font-weight:300;margin-bottom:1.5rem;color:var(--ink)}
-  .test-featured-quote::before{content:"“";font-size:3rem;color:var(--gold);line-height:0;margin-right:.3rem;vertical-align:-.4em}
+  .test-featured-quote{font-family:"Satoshi","Inter",sans-serif;font-size:clamp(1.3rem, 2.2vw, 1.75rem);line-height:1.4;font-weight:500;margin-bottom:1.5rem;color:var(--ink);letter-spacing:-.02em}
+  .test-featured-quote::before{content:"“";font-family:"Satoshi","Inter",sans-serif;font-size:3rem;color:var(--gold);line-height:0;margin-right:.3rem;vertical-align:-.4em;font-weight:600}
   .test-meta{display:flex;align-items:center;gap:1rem;padding-top:1.2rem;border-top:1px solid var(--line)}
   .test-meta .name{font-weight:500;font-size:1.1rem;color:var(--ink)}
-  .test-meta .role{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--ink-dim);letter-spacing:.1em;margin-top:.2rem}
+  .test-meta .role{font-family:"Inter",sans-serif;font-size:.72rem;color:var(--ink-dim);letter-spacing:.1em;margin-top:.2rem}
   .test-rating{color:var(--gold);font-size:1rem;letter-spacing:.15em;margin-left:auto}
 
   .test-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));gap:1.5rem}
@@ -257,25 +284,25 @@ window.addEventListener('load', verifyLeaflet);
   .test-avatar{width:60px;height:60px;border-radius:50%;overflow:hidden;border:1px solid var(--line-strong);flex-shrink:0}
   .test-avatar img{width:100%;height:100%;object-fit:cover;filter:saturate(.85)}
   .test-avatar.avatar-fallback,.test-featured-img.avatar-fallback{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, color-mix(in srgb, var(--gold) 18%, var(--bg-2)), color-mix(in srgb, var(--emerald) 12%, var(--bg-2)))}
-  .test-avatar.avatar-fallback::after{content:attr(data-initials);font-family:"Cormorant Garamond","Fraunces",serif;font-weight:400;font-size:1.4rem;color:var(--ink);letter-spacing:.02em}
-  .test-featured-img.avatar-fallback::before{content:attr(data-initials);font-family:"Cormorant Garamond","Fraunces",serif;font-weight:300;font-size:clamp(4rem,8vw,7rem);color:var(--gold);letter-spacing:.02em;line-height:1;z-index:2}
+  .test-avatar.avatar-fallback::after{content:attr(data-initials);font-family:"Satoshi","Inter",sans-serif;font-weight:400;font-size:1.4rem;color:var(--ink);letter-spacing:.02em}
+  .test-featured-img.avatar-fallback::before{content:attr(data-initials);font-family:"Satoshi","Inter",sans-serif;font-weight:500;font-size:clamp(4rem,8vw,7rem);color:var(--gold);letter-spacing:-.02em;line-height:1;z-index:2}
   .test-who .tn{font-weight:500;font-size:1.05rem;color:var(--ink)}
-  .test-who .tr{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--ink-dim);letter-spacing:.1em;margin-top:.2rem}
+  .test-who .tr{font-family:"Inter",sans-serif;font-size:.68rem;color:var(--ink-dim);letter-spacing:.1em;margin-top:.2rem}
   .test-stars{color:var(--gold);font-size:.85rem;letter-spacing:.12em;margin-bottom:.8rem}
-  .test-prod{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:.25rem .6rem;margin-bottom:1rem;align-self:flex-start;font-weight:600}
-  .test-body{font-size:.95rem;line-height:1.7;color:var(--ink-dim);font-style:italic;flex:1}
-  .test-foot{margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--ink-faint);letter-spacing:.1em;display:flex;justify-content:space-between}
+  .test-prod{display:inline-block;font-family:"Inter",sans-serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:.25rem .6rem;margin-bottom:1rem;align-self:flex-start;font-weight:600}
+  .test-body{font-size:.92rem;line-height:1.7;color:var(--ink-dim);flex:1;font-weight:400}
+  .test-foot{margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line);font-family:"Inter",sans-serif;font-size:.68rem;color:var(--ink-faint);letter-spacing:.1em;display:flex;justify-content:space-between}
 
   /* ===== FOOTER ===== */
-  footer{padding:5rem 2rem 2rem;border-top:1px solid var(--line);background:var(--bg-2)}
-  .foot-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem}
+  footer{padding:5rem 2.2rem 2.2rem;border-top:1px solid var(--line);background:var(--bg-2)}
+  .foot-inner{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:3rem}
   @media(max-width:880px){.foot-inner{grid-template-columns:1fr 1fr}}
-  .foot h4{font-family:"JetBrains Mono",monospace;font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;font-weight:600}
-  .foot a,.foot p{display:block;font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--ink-dim);margin-bottom:.7rem;line-height:1.7;font-weight:400}
+  .foot h4{font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:1.4rem;font-weight:600}
+  .foot a,.foot p{display:block;font-family:"Inter",sans-serif;font-size:.84rem;color:var(--ink-dim);margin-bottom:.65rem;line-height:1.7;font-weight:400}
   .foot a{cursor:pointer;transition:color .2s}
   .foot a:hover{color:var(--ink)}
-  .foot-brand p{max-width:360px;line-height:1.75;font-size:.88rem}
-  .foot-bot{max-width:1400px;margin:3rem auto 0;padding-top:2rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);flex-wrap:wrap;gap:1rem;font-weight:500}
+  .foot-brand p{max-width:380px;line-height:1.7;font-size:.88rem;color:var(--ink-dim)}
+  .foot-bot{max-width:1480px;margin:3.5rem auto 0;padding-top:2rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);flex-wrap:wrap;gap:1rem;font-weight:500}
 
   /* ===== OVERLAY / DRAWER / MODAL ===== */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -285,7 +312,7 @@ window.addEventListener('load', verifyLeaflet);
   .drawer.open{transform:translateX(0)}
   .drawer-head{padding:1.5rem 1.8rem;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
   .drawer-head h3{font-weight:400;font-size:1.5rem;color:var(--ink)}
-  .drawer-head h3 em{font-style:italic;color:var(--gold)}
+  .drawer-head h3 em{color:var(--gold)}
   .close-btn{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--ink-dim);border:1px solid var(--line-strong);transition:all .2s}
   .close-btn:hover{color:var(--gold);border-color:var(--gold)}
   .drawer-body{flex:1;overflow-y:auto;padding:1.5rem 1.8rem}
@@ -293,27 +320,28 @@ window.addEventListener('load', verifyLeaflet);
 
   .cart-item{display:grid;grid-template-columns:76px 1fr auto;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--line);align-items:center}
   .cart-item:last-child{border-bottom:none}
-  .cart-thumb{width:76px;height:76px;background:var(--bg-3);display:flex;align-items:center;justify-content:center;border:1px solid var(--line)}
+  .cart-thumb{width:76px;height:76px;background:var(--product-bg);display:flex;align-items:center;justify-content:center;border:1px solid var(--line)}
   .cart-thumb svg{width:65%;height:65%}
   .cart-thumb .vial{width:100%;height:100%;padding:4% 2%}
   .cart-thumb .vial svg{width:90%;height:90%}
+  .cart-thumb .vial-img{width:96%;height:96%;font-size:9px}
   .ci-name{font-size:1.1rem;font-weight:500;color:var(--ink)}
-  .ci-meta{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--ink-dim);margin-top:.25rem;letter-spacing:.08em;font-weight:500}
+  .ci-meta{font-family:"Inter",sans-serif;font-size:.72rem;color:var(--ink-dim);margin-top:.25rem;letter-spacing:.08em;font-weight:500}
   .qty{display:flex;align-items:center;gap:.5rem;margin-top:.6rem}
   .qty button{width:24px;height:24px;border:1px solid var(--line-strong);color:var(--ink-dim);font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:600}
   .qty button:hover{color:var(--gold);border-color:var(--gold)}
-  .qty span{font-family:"JetBrains Mono",monospace;font-size:.85rem;min-width:24px;text-align:center;font-weight:600;color:var(--ink)}
+  .qty span{font-family:"Inter",sans-serif;font-size:.85rem;min-width:24px;text-align:center;font-weight:600;color:var(--ink)}
   .ci-price{color:var(--gold);font-size:1.15rem;font-weight:600}
-  .remove{font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-top:.5rem;cursor:pointer;font-weight:500}
+  .remove{font-family:"Inter",sans-serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-top:.5rem;cursor:pointer;font-weight:500}
   .remove:hover{color:var(--blood)}
 
   .empty{text-align:center;padding:3rem 1rem;color:var(--ink-dim)}
   .empty svg{margin:0 auto 1rem;color:var(--ink-faint)}
-  .empty p{font-family:"JetBrains Mono",monospace;font-size:.85rem;margin-bottom:1.5rem;font-weight:500}
+  .empty p{font-family:"Inter",sans-serif;font-size:.85rem;margin-bottom:1.5rem;font-weight:500}
 
-  .totals{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.2rem;font-family:"JetBrains Mono",monospace;font-size:.85rem;font-weight:500}
+  .totals{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.2rem;font-family:"Inter",sans-serif;font-size:.85rem;font-weight:500}
   .totals .row{display:flex;justify-content:space-between;color:var(--ink-dim)}
-  .totals .row.total{color:var(--ink);font-size:1.05rem;font-family:"Fraunces",serif;padding-top:.7rem;border-top:1px solid var(--line);margin-top:.5rem;font-weight:500}
+  .totals .row.total{color:var(--ink);font-size:1.05rem;font-family:"Satoshi","Inter",sans-serif;padding-top:.7rem;border-top:1px solid var(--line);margin-top:.5rem;font-weight:500}
   .totals .row.total strong{color:var(--gold);font-weight:600}
 
   /* ===== PAGES ===== */
@@ -322,32 +350,33 @@ window.addEventListener('load', verifyLeaflet);
 
   /* ===== PRODUCT PAGE ===== */
   .pdp-page{max-width:1400px;margin:0 auto;padding:3rem 2rem 5rem}
-  .breadcrumb{font-family:"JetBrains Mono",monospace;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:2rem;font-weight:500}
+  .breadcrumb{font-family:"Inter",sans-serif;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:2rem;font-weight:500}
   .breadcrumb a{color:var(--ink-dim);cursor:pointer}
   .breadcrumb a:hover{color:var(--gold)}
   .breadcrumb span{color:var(--ink-faint);margin:0 .6rem}
   .pdp-hero{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:5rem}
   @media(max-width:880px){.pdp-hero{grid-template-columns:1fr;gap:2rem}}
-  .pdp-img-big{aspect-ratio:1/1;background:var(--bg-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-  .pdp-img-big::before{content:"";position:absolute;inset:0;background:
-    radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--gold) 15%, transparent), transparent 60%)}
+  .pdp-img-big{aspect-ratio:1/1;background:var(--product-bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  [data-theme="dark"] .pdp-img-big::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(ellipse 55% 65% at 50% 50%, color-mix(in srgb, var(--gold) 18%, transparent) 0%, transparent 75%)}
   .pdp-img-big svg{width:65%;height:65%;position:relative;z-index:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,.4))}
   .pdp-img-big .vial{width:100%;height:100%;position:relative;z-index:1}
   .pdp-img-big .vial svg{width:65%;height:65%}
-  .pdp-info .pdp-cat{font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600}
+  .pdp-img-big .vial-img{width:100%;height:100%;position:relative;z-index:1;filter:drop-shadow(0 30px 60px rgba(0,0,0,.5))}
+  .pdp-info .pdp-cat{font-family:"Inter",sans-serif;font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600}
   .pdp-info h1{font-weight:400;font-size:clamp(2.4rem, 4vw, 3.5rem);line-height:1;margin-bottom:.6rem;color:var(--ink)}
-  .pdp-info .sku{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--ink-faint);letter-spacing:.2em;margin-bottom:2rem;font-weight:500}
+  .pdp-info .sku{font-family:"Inter",sans-serif;font-size:.78rem;color:var(--ink-faint);letter-spacing:.2em;margin-bottom:2rem;font-weight:500}
   .pdp-info .big-price{font-size:2.6rem;color:var(--gold);margin-bottom:2rem;font-weight:500}
-  .pdp-info .big-price small{font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--ink-faint);letter-spacing:.15em;margin-left:.6rem;font-weight:500}
+  .pdp-info .big-price small{font-family:"Inter",sans-serif;font-size:.75rem;color:var(--ink-faint);letter-spacing:.15em;margin-left:.6rem;font-weight:500}
   .pdp-lead{font-size:1.05rem;line-height:1.7;color:var(--ink-dim);margin-bottom:2rem}
   .pdp-specs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2.5rem;padding:1.5rem;background:var(--bg-2);border:1px solid var(--line)}
-  .spec .l{font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:.35rem;font-weight:600}
+  .spec .l{font-family:"Inter",sans-serif;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:.35rem;font-weight:600}
   .spec .v{font-size:1rem;color:var(--ink);font-weight:500}
   .pdp-actions{display:flex;gap:.8rem;align-items:stretch}
   .big-qty{display:flex;align-items:center;border:1px solid var(--line-strong)}
   .big-qty button{width:44px;height:48px;color:var(--ink-dim);font-size:1.2rem;transition:all .2s;font-weight:400}
   .big-qty button:hover{color:var(--gold)}
-  .big-qty span{min-width:42px;text-align:center;font-family:"JetBrains Mono",monospace;font-weight:600;color:var(--ink)}
+  .big-qty span{min-width:42px;text-align:center;font-family:"Inter",sans-serif;font-weight:600;color:var(--ink)}
   .big-buy{flex:1;padding:.9rem 1.5rem;font-size:.78rem}
 
   /* Benefit sections */
@@ -363,19 +392,19 @@ window.addEventListener('load', verifyLeaflet);
   .benefit-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(1.02);transition:transform .6s}
   .benefit-row:hover .benefit-img img{transform:scale(1.04)}
   .benefit-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--bg) 20%, transparent))}
-  .benefit-num{font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.3em;color:var(--gold);margin-bottom:1rem;font-weight:600}
+  .benefit-num{font-family:"Inter",sans-serif;font-size:.78rem;letter-spacing:.3em;color:var(--gold);margin-bottom:1rem;font-weight:600}
   .benefit-title{font-weight:400;font-size:clamp(1.8rem, 3vw, 2.4rem);line-height:1.15;margin-bottom:1.2rem;color:var(--ink)}
-  .benefit-title em{font-style:italic;color:var(--gold);font-weight:500}
+  .benefit-title em{color:var(--gold);font-weight:600}
   .benefit-text{font-size:1.02rem;line-height:1.75;color:var(--ink-dim);margin-bottom:1rem}
   .benefit-bullets{list-style:none;margin-top:1.5rem}
-  .benefit-bullets li{display:flex;gap:.8rem;padding:.7rem 0;font-size:.92rem;color:var(--ink);border-bottom:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-weight:500}
+  .benefit-bullets li{display:flex;gap:.8rem;padding:.7rem 0;font-size:.92rem;color:var(--ink);border-bottom:1px solid var(--line);font-family:"Inter",sans-serif;font-weight:500}
   .benefit-bullets li::before{content:"◆";color:var(--gold);font-size:.7rem;margin-top:.3rem}
   .benefit-bullets li:last-child{border-bottom:none}
 
   /* Checkout */
   .co-step{padding:1.5rem 1.8rem;border-bottom:1px solid var(--line)}
   .co-step h4{font-weight:500;font-size:1.15rem;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem;color:var(--ink)}
-  .co-step h4 .num{width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--bg);font-family:"JetBrains Mono",monospace;font-size:.78rem;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .co-step h4 .num{width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--bg);font-family:"Inter",sans-serif;font-size:.78rem;display:flex;align-items:center;justify-content:center;font-weight:700}
   .co-opts{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem}
   .co-opt{padding:1.1rem;border:1px solid var(--line-strong);cursor:pointer;transition:all .2s;text-align:left;display:flex;flex-direction:column;gap:.3rem;background:transparent}
   .co-opt:hover{border-color:var(--ink-dim)}
@@ -386,24 +415,24 @@ window.addEventListener('load', verifyLeaflet);
   .crypto-pill:hover{border-color:var(--ink-dim)}
   .crypto-pill.sel{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 8%, transparent)}
   .crypto-pill .cp-icon{font-size:1.3rem;color:var(--gold);line-height:1;font-weight:600}
-  .crypto-pill .cp-name{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.18em;font-weight:600;color:var(--ink)}
+  .crypto-pill .cp-name{font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.18em;font-weight:600;color:var(--ink)}
   .co-opt .t{font-size:1.05rem;font-weight:500;color:var(--ink)}
-  .co-opt .d{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--ink-dim);font-weight:500}
+  .co-opt .d{font-family:"Inter",sans-serif;font-size:.72rem;color:var(--ink-dim);font-weight:500}
   .field{margin-bottom:.9rem}
-  .field label{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:.4rem;font-weight:600}
-  .field input,.field select,.field textarea{width:100%;padding:.8rem .95rem;background:var(--bg);border:1px solid var(--line-strong);color:var(--ink);font-family:"JetBrains Mono",monospace;font-size:.88rem;transition:border-color .2s;font-weight:500}
+  .field label{font-family:"Inter",sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:.4rem;font-weight:600}
+  .field input,.field select,.field textarea{width:100%;padding:.8rem .95rem;background:var(--bg);border:1px solid var(--line-strong);color:var(--ink);font-family:"Inter",sans-serif;font-size:.88rem;transition:border-color .2s;font-weight:500}
   .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
   .field-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 
   .success{text-align:center;padding:2.5rem 1.5rem}
   .success-mark{width:76px;height:76px;margin:0 auto 1.5rem;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold)}
   .success h3{font-size:1.9rem;font-weight:400;margin-bottom:.7rem;color:var(--ink)}
-  .success h3 em{color:var(--gold);font-style:italic}
-  .success p{font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--ink-dim);line-height:1.7;margin-bottom:.5rem;font-weight:500}
-  .order-no{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--gold);letter-spacing:.2em;margin:1.5rem 0;padding:1rem 1.5rem;border:1px dashed var(--gold);display:inline-block;font-weight:600}
+  .success h3 em{color:var(--gold)}
+  .success p{font-family:"Inter",sans-serif;font-size:.85rem;color:var(--ink-dim);line-height:1.7;margin-bottom:.5rem;font-weight:500}
+  .order-no{font-family:"Inter",sans-serif;font-size:.9rem;color:var(--gold);letter-spacing:.2em;margin:1.5rem 0;padding:1rem 1.5rem;border:1px dashed var(--gold);display:inline-block;font-weight:600}
 
   /* toast */
-  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--bg);padding:1rem 1.6rem;font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;z-index:200;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,.4);font-weight:600}
+  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gold);color:var(--bg);padding:1rem 1.6rem;font-family:"Inter",sans-serif;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;z-index:200;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,.4);font-weight:600}
   .toast.show{transform:translateX(-50%) translateY(0)}
 
   ::-webkit-scrollbar{width:8px;height:8px}
@@ -416,14 +445,14 @@ window.addEventListener('load', verifyLeaflet);
 
   .delivery-hero{display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:center;margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid var(--line)}
   @media(max-width:880px){.delivery-hero{grid-template-columns:1fr;gap:1.5rem}}
-  .dh-text .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600}
-  .dh-text h1{font-weight:300;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;letter-spacing:-.01em;color:var(--ink);margin-bottom:1.5rem}
-  .dh-text h1 em{font-style:italic;color:var(--gold);font-weight:400}
-  .dh-text p{font-family:"JetBrains Mono",monospace;font-size:1rem;line-height:1.7;color:var(--ink-dim);max-width:540px;font-weight:400}
+  .dh-text .eyebrow{font-family:"Inter",sans-serif;font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600}
+  .dh-text h1{font-family:"Satoshi","Inter",sans-serif;font-weight:500;font-size:clamp(2.2rem,4.5vw,3.6rem);line-height:1.05;letter-spacing:-.035em;color:var(--ink);margin-bottom:1.5rem}
+  .dh-text h1 em{font-style:normal;color:var(--ink);font-weight:700;background:linear-gradient(transparent 65%,color-mix(in srgb,var(--gold) 35%,transparent) 65%);padding:0 .1em}
+  .dh-text p{font-family:"Inter",sans-serif;font-size:1rem;line-height:1.7;color:var(--ink-dim);max-width:540px;font-weight:400}
   .dh-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
   .dh-stat{background:var(--bg-2);padding:1.5rem}
   .dh-stat .n{font-size:2rem;color:var(--gold);font-weight:500;line-height:1;margin-bottom:.5rem}
-  .dh-stat .l{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+  .dh-stat .l{font-family:"Inter",sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
 
   /* Mode tabs */
   .mode-tabs{display:flex;gap:0;border:1px solid var(--line-strong);margin-bottom:2.5rem;background:var(--bg-2)}
@@ -434,7 +463,7 @@ window.addEventListener('load', verifyLeaflet);
   .mode-tab .mt-icon{width:24px;height:24px;margin-bottom:.5rem;color:var(--gold)}
   .mode-tab.active .mt-icon{color:var(--bg)}
   .mode-tab .mt-t{font-size:1.15rem;font-weight:500;margin-bottom:.2rem}
-  .mode-tab .mt-d{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-dim);font-weight:500}
+  .mode-tab .mt-d{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-dim);font-weight:500}
   .mode-tab.active .mt-d{color:color-mix(in srgb, var(--bg) 70%, var(--ink))}
 
   /* Map + sidebar layout */
@@ -444,18 +473,18 @@ window.addEventListener('load', verifyLeaflet);
   @media(max-width:960px){.map-wrap{aspect-ratio:4/3;min-height:400px}}
   #map{width:100%;height:100%}
   .map-overlay-top{position:absolute;top:1rem;left:1rem;right:1rem;z-index:500;display:flex;gap:.5rem;flex-wrap:wrap;pointer-events:none}
-  .map-pill{pointer-events:auto;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;padding:.5rem .9rem;background:var(--bg-2);border:1px solid var(--line-strong);color:var(--ink-dim);font-weight:600;cursor:pointer;transition:all .2s}
+  .map-pill{pointer-events:auto;font-family:"Inter",sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;padding:.5rem .9rem;background:var(--bg-2);border:1px solid var(--line-strong);color:var(--ink-dim);font-weight:600;cursor:pointer;transition:all .2s}
   .map-pill:hover,.map-pill.active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-  .map-legend{position:absolute;bottom:1rem;left:1rem;z-index:500;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:.6rem .9rem;background:color-mix(in srgb, var(--bg) 90%, transparent);border:1px solid var(--line);color:var(--ink-dim);font-weight:600;display:flex;align-items:center;gap:.6rem;backdrop-filter:blur(4px)}
+  .map-legend{position:absolute;bottom:1rem;left:1rem;z-index:500;font-family:"Inter",sans-serif;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:.6rem .9rem;background:color-mix(in srgb, var(--bg) 90%, transparent);border:1px solid var(--line);color:var(--ink-dim);font-weight:600;display:flex;align-items:center;gap:.6rem;backdrop-filter:blur(4px)}
   .map-legend::before{content:"";width:10px;height:10px;background:var(--gold);border-radius:50%;box-shadow:0 0 0 3px color-mix(in srgb, var(--gold) 30%, transparent)}
 
   /* Gym sidebar list */
   .gym-sidebar{background:var(--bg-2);border:1px solid var(--line);display:flex;flex-direction:column;max-height:720px}
   @media(max-width:960px){.gym-sidebar{max-height:500px}}
   .gym-search{padding:1.2rem 1.3rem;border-bottom:1px solid var(--line)}
-  .gym-search-input{width:100%;padding:.75rem .9rem;background:var(--bg);border:1px solid var(--line-strong);color:var(--ink);font-family:"JetBrains Mono",monospace;font-size:.85rem;font-weight:500;transition:border-color .2s}
+  .gym-search-input{width:100%;padding:.75rem .9rem;background:var(--bg);border:1px solid var(--line-strong);color:var(--ink);font-family:"Inter",sans-serif;font-size:.85rem;font-weight:500;transition:border-color .2s}
   .gym-search-input:focus{outline:none;border-color:var(--gold)}
-  .gym-count{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-top:.6rem;font-weight:600}
+  .gym-count{font-family:"Inter",sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-top:.6rem;font-weight:600}
   .gym-count span{color:var(--gold)}
   .gym-list{flex:1;overflow-y:auto}
   .gym-item{padding:1.2rem 1.3rem;border-bottom:1px solid var(--line);cursor:pointer;transition:background .2s;position:relative}
@@ -464,13 +493,13 @@ window.addEventListener('load', verifyLeaflet);
   .gym-item.selected{background:color-mix(in srgb, var(--gold) 8%, transparent);border-left:3px solid var(--gold);padding-left:calc(1.3rem - 3px)}
   .gi-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.5rem;padding-right:5.5rem}
   .gi-name{font-size:1.05rem;font-weight:500;color:var(--ink);line-height:1.3}
-  .gi-dist{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.15em;color:var(--gold);font-weight:600;white-space:nowrap;margin-top:.15rem}
-  .gi-addr{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--ink-dim);line-height:1.5;margin-bottom:.6rem;font-weight:500}
+  .gi-dist{font-family:"Inter",sans-serif;font-size:.68rem;letter-spacing:.15em;color:var(--gold);font-weight:600;white-space:nowrap;margin-top:.15rem}
+  .gi-addr{font-family:"Inter",sans-serif;font-size:.72rem;color:var(--ink-dim);line-height:1.5;margin-bottom:.6rem;font-weight:500}
   .gi-tags{display:flex;gap:.4rem;flex-wrap:wrap}
-  .gi-tag{font-family:"JetBrains Mono",monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .5rem;background:var(--bg-3);color:var(--ink-dim);font-weight:600;border:1px solid var(--line)}
+  .gi-tag{font-family:"Inter",sans-serif;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .5rem;background:var(--bg-3);color:var(--ink-dim);font-weight:600;border:1px solid var(--line)}
   .gi-tag.hr{color:var(--gold);border-color:var(--gold)}
   .gi-tag.area{color:var(--gold);border-color:var(--gold);background:transparent}
-  .gi-pick{position:absolute;top:1.2rem;right:1.3rem;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;padding:.35rem .7rem;border:1px solid var(--line-strong);color:var(--ink-dim);background:transparent;font-weight:600;transition:all .2s}
+  .gi-pick{position:absolute;top:1.2rem;right:1.3rem;font-family:"Inter",sans-serif;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;padding:.35rem .7rem;border:1px solid var(--line-strong);color:var(--ink-dim);background:transparent;font-weight:600;transition:all .2s}
   .gym-item:hover .gi-pick{border-color:var(--gold);color:var(--gold)}
   .gym-item.selected .gi-pick{background:var(--gold);color:var(--bg);border-color:var(--gold)}
 
@@ -479,47 +508,47 @@ window.addEventListener('load', verifyLeaflet);
   .booking-panel.open{display:block;animation:fu .4s}
   .bp-head{display:flex;justify-content:space-between;align-items:start;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--line)}
   .bp-head h3{font-size:1.6rem;font-weight:500;color:var(--ink);margin-bottom:.3rem;line-height:1.2}
-  .bp-head h3 em{font-style:italic;color:var(--gold);font-weight:400}
-  .bp-head .loc{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink-dim);font-weight:500;line-height:1.5}
+  .bp-head h3 em{color:var(--gold);font-weight:500}
+  .bp-head .loc{font-family:"Inter",sans-serif;font-size:.8rem;color:var(--ink-dim);font-weight:500;line-height:1.5}
   .bp-close{flex-shrink:0}
   .bp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
   @media(max-width:680px){.bp-grid{grid-template-columns:1fr;gap:1.5rem}}
-  .bp-section h4{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600;display:flex;align-items:center;gap:.6rem}
+  .bp-section h4{font-family:"Inter",sans-serif;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600;display:flex;align-items:center;gap:.6rem}
   .bp-section h4::before{content:"◆"}
 
   .date-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-bottom:1rem}
   .date-opt{padding:.7rem .4rem;border:1px solid var(--line-strong);cursor:pointer;text-align:center;transition:all .2s;background:transparent}
   .date-opt:hover{border-color:var(--ink-dim)}
   .date-opt.sel{background:var(--gold);border-color:var(--gold);color:var(--bg)}
-  .date-opt .dow{font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;color:var(--ink-dim);margin-bottom:.2rem}
+  .date-opt .dow{font-family:"Inter",sans-serif;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;color:var(--ink-dim);margin-bottom:.2rem}
   .date-opt.sel .dow{color:color-mix(in srgb, var(--bg) 60%, var(--ink))}
   .date-opt .dn{font-size:1.3rem;font-weight:500;color:var(--ink);line-height:1}
   .date-opt.sel .dn{color:var(--bg)}
 
   .slots{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
-  .slot{padding:.7rem .6rem;border:1px solid var(--line-strong);font-family:"JetBrains Mono",monospace;font-size:.72rem;font-weight:600;letter-spacing:.08em;cursor:pointer;transition:all .2s;background:transparent;color:var(--ink-dim);text-align:center}
+  .slot{padding:.7rem .6rem;border:1px solid var(--line-strong);font-family:"Inter",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;cursor:pointer;transition:all .2s;background:transparent;color:var(--ink-dim);text-align:center}
   .slot:hover{border-color:var(--ink-dim);color:var(--ink)}
   .slot.sel{background:var(--gold);color:var(--bg);border-color:var(--gold)}
   .slot.taken{opacity:.3;cursor:not-allowed;text-decoration:line-through}
 
   .bp-confirm{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-  .bp-confirm-text{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--ink-dim);line-height:1.6;font-weight:500}
+  .bp-confirm-text{font-family:"Inter",sans-serif;font-size:.78rem;color:var(--ink-dim);line-height:1.6;font-weight:500}
   .bp-confirm-text strong{color:var(--gold);font-weight:600}
 
   /* Custom leaflet overrides */
-  .leaflet-container{background:var(--bg-3) !important;font-family:"JetBrains Mono",monospace !important;outline:none}
+  .leaflet-container{background:var(--bg-3) !important;font-family:"Inter",sans-serif !important;outline:none}
   .leaflet-tile{filter:hue-rotate(-8deg) saturate(.75)}
   [data-theme="light"] .leaflet-tile{filter:saturate(.8) brightness(1.02) sepia(.06)}
   .leaflet-popup-content-wrapper{background:var(--bg-2) !important;color:var(--ink) !important;border-radius:0 !important;border:1px solid var(--gold) !important;box-shadow:0 10px 30px rgba(0,0,0,.5) !important}
-  .leaflet-popup-content{margin:14px 16px !important;font-family:"Fraunces",serif !important;min-width:180px}
+  .leaflet-popup-content{margin:14px 16px !important;font-family:"Satoshi","Inter",sans-serif !important;min-width:180px}
   .leaflet-popup-tip{background:var(--bg-2) !important;border:1px solid var(--gold) !important}
   .leaflet-popup-close-button{color:var(--ink-dim) !important;font-size:20px !important;padding:6px !important}
   .leaflet-popup-close-button:hover{color:var(--gold) !important;background:transparent !important}
   .popup-name{font-size:1.05rem;font-weight:500;margin-bottom:.3rem;color:var(--ink)}
-  .popup-addr{font-family:"JetBrains Mono",monospace;font-size:.7rem;color:var(--ink-dim);font-weight:500;margin-bottom:.6rem;line-height:1.5}
-  .popup-btn{font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;padding:.5rem .8rem;background:var(--gold);color:var(--bg);border:none;cursor:pointer;font-weight:700;width:100%;transition:background .2s}
+  .popup-addr{font-family:"Inter",sans-serif;font-size:.7rem;color:var(--ink-dim);font-weight:500;margin-bottom:.6rem;line-height:1.5}
+  .popup-btn{font-family:"Inter",sans-serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;padding:.5rem .8rem;background:var(--gold);color:var(--bg);border:none;cursor:pointer;font-weight:700;width:100%;transition:background .2s}
   .popup-btn:hover{background:var(--gold-2)}
-  .leaflet-control-zoom a{background:var(--bg-2) !important;color:var(--ink) !important;border:1px solid var(--line-strong) !important;font-family:"Fraunces",serif !important}
+  .leaflet-control-zoom a{background:var(--bg-2) !important;color:var(--ink) !important;border:1px solid var(--line-strong) !important;font-family:"Satoshi","Inter",sans-serif !important}
   .leaflet-control-zoom a:hover{background:var(--gold) !important;color:var(--bg) !important;border-color:var(--gold) !important}
   .leaflet-control-attribution{background:color-mix(in srgb, var(--bg) 80%, transparent) !important;color:var(--ink-faint) !important;font-size:.6rem !important;padding:2px 6px !important}
   .leaflet-control-attribution a{color:var(--ink-dim) !important}
@@ -531,27 +560,40 @@ window.addEventListener('load', verifyLeaflet);
   .gym-marker .pin::after{content:"";position:absolute;top:7px;left:7px;width:14px;height:14px;background:var(--bg);border-radius:50%}
   .gym-marker.active .pin{background:var(--emerald-2);box-shadow:0 4px 14px rgba(0,0,0,.6), 0 0 0 4px color-mix(in srgb, var(--emerald-2) 40%, transparent)}
 
-  /* (vial styling is handled by .card-img svg, .cart-thumb svg, .pdp-img-big svg above) */
+  /* ===== PHOTOGRAPHIC VIAL =====
+     Empty vial PNG already includes "LYRA✦" and "For research only".
+     PNG has lots of whitespace around the silhouette, so we zoom via
+     background-size to make the vial fill the frame.
+     We absolutely-position the product name + dose into the label gap.
+     Container queries (cqw) keep the label legible at every render size. */
+  .vial-img{position:relative;width:100%;aspect-ratio:1/1;background-image:url("vial empty.png");background-size:160% auto;background-position:center 52%;background-repeat:no-repeat;display:block;container-type:inline-size;container-name:vial;overflow:hidden}
+  .vial-img .vlabel{position:absolute;left:39%;right:5%;top:55.5%;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;color:#ffffff;text-align:left;line-height:1.02}
+  .vial-img .v-name{font-family:"Satoshi","Inter",sans-serif;font-weight:600;font-size:3.6cqw;letter-spacing:-.005em;color:#fff;margin-bottom:.5em;width:100%;line-height:1.1}
+  .vial-img .v-name.long{font-size:3cqw;line-height:1.12}
+  .vial-img .v-name.xlong{font-size:2.5cqw;line-height:1.15}
+  .vial-img .v-dose{font-family:"Satoshi","Inter",sans-serif;font-weight:600;font-size:2.7cqw;color:#fff;line-height:1}
+
   /* Placeholder for the one product without a photo yet */
   .vial-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;width:75%;height:75%;background:var(--bg-2);border:1px dashed var(--line-strong);padding:2rem;text-align:center}
-  .vial-placeholder .vp-mark{font-family:"Cormorant Garamond","Fraunces",serif;font-size:1.5rem;letter-spacing:.32em;color:var(--ink-dim);margin-bottom:1rem}
-  .vial-placeholder .vp-name{font-family:"Fraunces",serif;font-size:1.6rem;font-weight:500;color:var(--ink);margin-bottom:.6rem;font-style:italic}
-  .vial-placeholder .vp-soon{font-family:"JetBrains Mono",monospace;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;border:1px solid var(--gold);padding:.4rem .8rem}
+  .vial-placeholder .vp-mark{font-family:"Satoshi","Inter",sans-serif;font-size:1.5rem;letter-spacing:.32em;color:var(--ink-dim);margin-bottom:1rem}
+  .vial-placeholder .vp-name{font-family:"Satoshi","Inter",sans-serif;font-size:1.6rem;font-weight:500;color:var(--ink);margin-bottom:.6rem;}
+  .vial-placeholder .vp-soon{font-family:"Inter",sans-serif;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;border:1px solid var(--gold);padding:.4rem .8rem}
 
   .hidden{display:none!important}
 
-  .fade-up{opacity:0;transform:translateY(24px);animation:fu .9s forwards}
-  .fade-up.d1{animation-delay:.1s}
-  .fade-up.d2{animation-delay:.25s}
-  .fade-up.d3{animation-delay:.4s}
-  .fade-up.d4{animation-delay:.55s}
+  .fade-up{opacity:0;transform:translateY(20px);animation:fu .8s cubic-bezier(.22,.61,.36,1) forwards}
+  .fade-up.d1{animation-delay:.08s}
+  .fade-up.d2{animation-delay:.18s}
+  .fade-up.d3{animation-delay:.3s}
+  .fade-up.d4{animation-delay:.42s}
   @keyframes fu{to{opacity:1;transform:translateY(0)}}
+  @media(prefers-reduced-motion:reduce){.fade-up{opacity:1;transform:none;animation:none}}
 </style>
 </head>
 <body data-theme="dark">
 
 <!-- AGE GATE -->
-<div class="gate" id="gate">
+<div class="gate hidden" id="gate" data-debug-skip="true">
   <div class="gate-inner">
     <div class="brand" style="justify-content:center;margin-bottom:2.5rem">
       <img class="brand-logo brand-large" id="gate-logo" alt="LYRA"/>
@@ -566,7 +608,7 @@ window.addEventListener('load', verifyLeaflet);
 </div>
 
 <!-- HEADER -->
-<header class="nav hidden" id="site">
+<header class="nav" id="site">
   <div class="nav-inner">
     <div class="brand" onclick="goPage('home')">
       <img class="brand-logo" id="nav-logo" alt="LYRA"/>
@@ -595,7 +637,7 @@ window.addEventListener('load', verifyLeaflet);
 </header>
 
 <!-- ============ HOME PAGE ============ -->
-<div class="page active hidden" id="page-home">
+<div class="page active" id="page-home">
 
   <section class="hero">
     <div class="hero-bg"></div>
@@ -731,7 +773,7 @@ window.addEventListener('load', verifyLeaflet);
 </div>
 
 <!-- FOOTER -->
-<footer class="hidden" id="foot">
+<footer id="foot">
   <div class="foot-inner">
     <div class="foot foot-brand">
       <div class="brand" style="margin-bottom:1.2rem">
@@ -1280,55 +1322,47 @@ const TESTIMONIALS = [
 /* ================================
    SVG VIAL — labels constrained, text wraps correctly, no overflow
 ================================ */
-function vialSVG(p, big=false){
-  const short = p.short || p.name;
-  // split long names onto 2 lines if needed to prevent overflow
-  const lines = short.length > 10 ? splitName(short) : [short];
-  const nameSize = lines.length > 1 ? 6 : (short.length > 8 ? 7 : 9);
-  const firstY = lines.length > 1 ? 200 : 204;
+/*
+  Photographic vial — uses vial empty.png as the base image.
+  The empty image already contains "LYRA✦" near the top of the label and
+  "For research only" near the bottom. We absolutely-position the product
+  name + dose into the gap on the label.
 
-  return `
-  <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="g${p.id}" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="${p.color}"/>
-        <stop offset="100%" stop-color="${p.color2}"/>
-      </linearGradient>
-      <linearGradient id="glass${p.id}" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#ffffff" stop-opacity=".1"/>
-        <stop offset="50%" stop-color="#ffffff" stop-opacity=".02"/>
-        <stop offset="100%" stop-color="#000" stop-opacity=".22"/>
-      </linearGradient>
-      <linearGradient id="cap${p.id}" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#4a4a4a"/>
-        <stop offset="50%" stop-color="#1a1a1a"/>
-        <stop offset="100%" stop-color="#3a3a3a"/>
-      </linearGradient>
-    </defs>
-    <!-- cap -->
-    <rect x="75" y="18" width="50" height="26" fill="url(#cap${p.id})" rx="1"/>
-    <rect x="72" y="40" width="56" height="10" fill="#1a1a1a"/>
-    <!-- neck -->
-    <rect x="82" y="50" width="36" height="14" fill="#1a201c"/>
-    <!-- body -->
-    <path d="M72 64 L128 64 L138 84 L138 254 Q138 268 124 268 L76 268 Q62 268 62 254 L62 84 Z" fill="#0f1310" stroke="${p.color}" stroke-width=".5" stroke-opacity=".4"/>
-    <!-- liquid -->
-    <path d="M66 148 Q100 144 134 148 L134 252 Q134 264 122 264 L78 264 Q66 264 66 252 Z" fill="url(#g${p.id})" opacity=".92"/>
-    <!-- glass highlight -->
-    <path d="M72 64 L128 64 L138 84 L138 254 Q138 268 124 268 L76 268 Q62 268 62 254 L62 84 Z" fill="url(#glass${p.id})"/>
-    <rect x="70" y="90" width="5" height="160" fill="white" opacity=".15" rx="2"/>
-    <!-- LABEL (constrained: x=70→130, y=165→245) -->
-    <rect x="70" y="165" width="60" height="80" fill="#000000" stroke="${p.color}" stroke-width=".4"/>
-    <!-- brand band -->
-    <text x="100" y="179" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="${p.color}" letter-spacing="1.5" font-weight="600">LYRA</text>
-    <line x1="76" y1="184" x2="124" y2="184" stroke="${p.color}" stroke-width=".25" opacity=".7"/>
-    <!-- product name (possibly 2 lines) -->
-    ${lines.map((line, i) => `<text x="100" y="${firstY + i*10}" text-anchor="middle" font-family="Fraunces" font-size="${nameSize}" font-style="italic" fill="#eae6dc" font-weight="500">${escapeSVG(line)}</text>`).join('')}
-    <!-- size line -->
-    <text x="100" y="${firstY + lines.length*10 + 10}" text-anchor="middle" font-family="JetBrains Mono" font-size="4" fill="#9aa198" font-weight="500">${p.size.toUpperCase()} · ${p.purity}</text>
-    <!-- lot line -->
-    <text x="100" y="${firstY + lines.length*10 + 20}" text-anchor="middle" font-family="JetBrains Mono" font-size="3.5" fill="#6a726a">LOT A24-${p.id}${(p.id.charCodeAt(0)*7)%900+100}</text>
-  </svg>`;
+  size: "sm" (cards/cart), "md" (small contexts), "lg" (PDP / featured), "xl" (hero)
+*/
+function vialSVG(p, big=false){
+  return vialImage(p, big ? 'lg' : 'sm');
+}
+
+function vialImage(p, size='sm'){
+  // Use the natural mixed-case product name (matches reference label style)
+  const display = (p.name || p.short || '').trim();
+  // Multi-line / shrink decision:
+  //   xlong → 3+ words or > 18 chars (e.g. "CJC-1295 / Ipamorelin")
+  //   long  → 2 words or > 11 chars (e.g. "Cagrilintide", "Melanotan II")
+  //   short → single word ≤ 11 chars
+  const wordCount = display.split(/\s+/).length;
+  let widthCls;
+  let nameHTML;
+  if(wordCount >= 3 || display.length > 18){
+    widthCls = ' xlong';
+    const parts = splitName(display);
+    nameHTML = parts.map(escapeHTML).join('<br/>');
+  } else if(wordCount >= 2 || display.length > 11){
+    widthCls = ' long';
+    const parts = splitName(display);
+    nameHTML = parts.map(escapeHTML).join('<br/>');
+  } else {
+    widthCls = '';
+    nameHTML = escapeHTML(display);
+  }
+  const dose = (p.size || '').replace(/\s+/g, ' ');
+  return `<div class="vial-img vial-${size}" role="img" aria-label="${escapeHTML(p.name)} ${escapeHTML(dose)}">
+    <div class="vlabel">
+      <div class="v-name${widthCls}">${nameHTML}</div>
+      <div class="v-dose">${escapeHTML(dose)}</div>
+    </div>
+  </div>`;
 }
 
 function splitName(name){
@@ -1345,46 +1379,166 @@ function splitName(name){
   }
   return [name];
 }
-function escapeSVG(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function escapeHTML(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function escapeSVG(s){return escapeHTML(s)}
 
 function getInitials(name){
   if(!name) return '';
   return name.split(/\s+/).filter(Boolean).map(p => p[0]).join('').slice(0,2).toUpperCase();
 }
 
-/* hero vial — bigger, nicer */
+/* ================================
+   ANOMALOUS MATTER HERO
+   Three.js wireframe icosahedron with Perlin-noise displacement,
+   gold-tinted with mouse-follow point light. Adapted from
+   21st.dev AnomalousMatterHero. Sits behind the hero vial.
+================================ */
+let __anomalyState = null;
+
+function initAnomalousMatter(mountEl){
+  if(typeof THREE === 'undefined' || !mountEl) return;
+  // Tear down any previous instance
+  if(__anomalyState){
+    cancelAnimationFrame(__anomalyState.frameId);
+    __anomalyState.renderer.dispose();
+    if(__anomalyState.canvas && __anomalyState.canvas.parentNode) __anomalyState.canvas.parentNode.removeChild(__anomalyState.canvas);
+    __anomalyState = null;
+  }
+
+  const w = mountEl.clientWidth || 1;
+  const h = mountEl.clientHeight || 1;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, w/h, 0.1, 1000);
+  camera.position.z = 3;
+
+  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+  mountEl.appendChild(renderer.domElement);
+
+  const geometry = new THREE.IcosahedronGeometry(1.25, 64);
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      time: { value: 0 },
+      pointLightPosition: { value: new THREE.Vector3(0, 0, 5) },
+      color: { value: new THREE.Color(0xe3b055) }, // brand gold
+    },
+    vertexShader: `
+      uniform float time;
+      varying vec3 vNormal;
+      varying vec3 vPosition;
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0/289.0)) * 289.0; }
+      vec4 mod289(vec4 x) { return x - floor(x * (1.0/289.0)) * 289.0; }
+      vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+      vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
+      float snoise(vec3 v){
+        const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+        vec3 i = floor(v + dot(v, C.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min(g.xyz, l.zxy);
+        vec3 i2 = max(g.xyz, l.zxy);
+        vec3 x1 = x0 - i1 + C.xxx;
+        vec3 x2 = x0 - i2 + C.yyy;
+        vec3 x3 = x0 - D.yyy;
+        i = mod289(i);
+        vec4 p = permute(permute(permute(
+                  i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+        float n_ = 0.142857142857;
+        vec3 ns = n_ * D.wyz - D.xzx;
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_);
+        vec4 x = x_ * ns.x + ns.yyyy;
+        vec4 y = y_ * ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+        vec4 b0 = vec4(x.xy, y.xy);
+        vec4 b1 = vec4(x.zw, y.zw);
+        vec4 s0 = floor(b0)*2.0 + 1.0;
+        vec4 s1 = floor(b1)*2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+        vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+        vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+        vec3 p0 = vec3(a0.xy, h.x);
+        vec3 p1 = vec3(a0.zw, h.y);
+        vec3 p2 = vec3(a1.xy, h.z);
+        vec3 p3 = vec3(a1.zw, h.w);
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+        p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+      }
+      void main(){
+        vNormal = normal;
+        vPosition = position;
+        float displacement = snoise(position * 2.0 + time * 0.5) * 0.2;
+        vec3 newPosition = position + normal * displacement;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 color;
+      uniform vec3 pointLightPosition;
+      varying vec3 vNormal;
+      varying vec3 vPosition;
+      void main(){
+        vec3 normal = normalize(vNormal);
+        vec3 lightDir = normalize(pointLightPosition - vPosition);
+        float diffuse = max(dot(normal, lightDir), 0.0);
+        float fresnel = 1.0 - dot(normal, vec3(0.0, 0.0, 1.0));
+        fresnel = pow(fresnel, 2.0);
+        vec3 finalColor = color * diffuse + color * fresnel * 0.5;
+        gl_FragColor = vec4(finalColor, 1.0);
+      }
+    `,
+    wireframe: true,
+    transparent: true,
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  const animate = (t) => {
+    material.uniforms.time.value = t * 0.0003;
+    mesh.rotation.y += 0.0008;
+    mesh.rotation.x += 0.0003;
+    renderer.render(scene, camera);
+    __anomalyState.frameId = requestAnimationFrame(animate);
+  };
+
+  __anomalyState = { renderer, canvas: renderer.domElement, frameId: 0, material, mesh };
+  __anomalyState.frameId = requestAnimationFrame(animate);
+
+  // Resize
+  const onResize = () => {
+    const nw = mountEl.clientWidth, nh = mountEl.clientHeight;
+    camera.aspect = nw / nh;
+    camera.updateProjectionMatrix();
+    renderer.setSize(nw, nh);
+  };
+  window.addEventListener('resize', onResize);
+  __anomalyState.onResize = onResize;
+
+  // Mouse-follow point light (relative to mount)
+  const onMove = (e) => {
+    const rect = mountEl.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    material.uniforms.pointLightPosition.value.set(x * 3, y * 2, 3.5);
+  };
+  window.addEventListener('mousemove', onMove);
+  __anomalyState.onMove = onMove;
+}
+
+/* hero vial — wireframe canvas behind, mock photo on top */
 function heroVialSVG(){
-  const p = PRODUCTS.find(x=>x.id==="BPC");
-  return `<svg class="hero-vial" viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="heroglass" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="${p.color}" stop-opacity=".4"/>
-        <stop offset="50%" stop-color="${p.color}" stop-opacity=".7"/>
-        <stop offset="100%" stop-color="${p.color2}" stop-opacity=".9"/>
-      </linearGradient>
-      <linearGradient id="heroliquid" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#e3b055"/>
-        <stop offset="100%" stop-color="#7a5d2a"/>
-      </linearGradient>
-      <linearGradient id="herocap" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#4a4a4a"/>
-        <stop offset="50%" stop-color="#1a1a1a"/>
-        <stop offset="100%" stop-color="#3a3a3a"/>
-      </linearGradient>
-    </defs>
-    <rect x="110" y="30" width="80" height="40" fill="url(#herocap)" rx="2"/>
-    <rect x="105" y="60" width="90" height="16" fill="#2a2a2a" rx="1"/>
-    <rect x="125" y="76" width="50" height="22" fill="url(#heroglass)"/>
-    <path d="M105 98 L195 98 L210 130 L210 360 Q210 380 190 380 L110 380 Q90 380 90 360 L90 130 Z" fill="url(#heroglass)" stroke="#e3b055" stroke-width="1" stroke-opacity=".3"/>
-    <path d="M100 220 Q150 215 200 220 L205 355 Q205 372 190 372 L110 372 Q95 372 95 355 Z" fill="url(#heroliquid)" opacity=".85"/>
-    <rect x="108" y="140" width="8" height="200" fill="white" opacity=".15" rx="4"/>
-    <rect x="108" y="250" width="84" height="90" fill="#000000" stroke="#e3b055" stroke-width=".5"/>
-    <text x="150" y="272" text-anchor="middle" font-family="JetBrains Mono" font-size="7.5" fill="#e3b055" letter-spacing="2" font-weight="600">LYRA</text>
-    <line x1="115" y1="280" x2="185" y2="280" stroke="#e3b055" stroke-width=".4"/>
-    <text x="150" y="302" text-anchor="middle" font-family="Fraunces" font-size="15" font-style="italic" fill="#eae6dc" font-weight="500">BPC-157</text>
-    <text x="150" y="318" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#9aa198" font-weight="500">5MG · LYOPHILIZED</text>
-    <text x="150" y="332" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#5a625a">LOT A24-BPC-0891</text>
-  </svg>`;
+  return `<div class="anomaly-canvas" id="anomalyCanvas"></div>
+    <img class="hero-mock" src="mock.png" alt="LYRA Retatrutide vial" />`;
 }
 
 /* ================================
@@ -1444,13 +1598,25 @@ function enterSite(){
 
 function init(){
   document.getElementById('heroVialWrap').innerHTML = heroVialSVG() + `
-    <div class="hero-badge">Featured<span>BPC-157</span></div>`;
+    <div class="hero-badge">Featured<span>Retatrutide</span></div>`;
+  // Mount the WebGL scene inside the hero-visual right column
+  const mount = document.getElementById('anomalyCanvas');
+  if(mount) initAnomalousMatter(mount);
   renderFilters();
   renderGrid();
   renderTicker();
   renderTestimonials();
   updateCart();
 }
+
+// debug bypass: if gate is hidden via data-debug-skip, auto-init the site
+document.addEventListener('DOMContentLoaded', () => {
+  const gate = document.getElementById('gate');
+  if (gate && gate.dataset.debugSkip === 'true') {
+    gate.style.display = 'none';
+    init();
+  }
+});
 
 /* ================================
    PAGE NAV
@@ -1552,14 +1718,14 @@ function openProduct(id){
           </div>
           <button class="btn primary big-buy" onclick="addFromPDP()">Add to Cart · $<span id="pdpPriceVal">${p.price}</span></button>
         </div>
-        <p style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--ink-faint);margin-top:1.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500">◆ For Research Use Only · Not For Human Consumption</p>
+        <p style="font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-faint);margin-top:1.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500">◆ For Research Use Only · Not For Human Consumption</p>
       </div>
     </div>
 
     <section class="benefit-section">
       <div style="text-align:center;margin-bottom:4rem;max-width:700px;margin-left:auto;margin-right:auto">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600">◆ What It Does</div>
-        <h2 style="font-weight:300;font-size:clamp(2rem,3.5vw,2.8rem);line-height:1.15">The <em style="color:var(--gold);font-style:italic">research</em> behind ${p.name}</h2>
+        <div style="font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600">◆ What It Does</div>
+        <h2 style="font-weight:500;font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.1;letter-spacing:-.03em">The <em style="font-style:normal;font-weight:700;color:var(--ink);background:linear-gradient(transparent 65%,color-mix(in srgb,var(--gold) 35%,transparent) 65%);padding:0 .1em">research</em> behind ${p.name}</h2>
       </div>
       ${p.benefits.map((b, i) => `
         <div class="benefit-row ${i%2===1?'flip':''}">
@@ -1635,8 +1801,8 @@ function renderTestimonials(){
     </div>
 
     <div style="text-align:center;margin-top:4rem;padding:3rem;background:var(--bg-2);border:1px solid var(--line)">
-      <h3 style="font-weight:300;font-size:clamp(1.6rem,2.8vw,2.2rem);margin-bottom:1rem;font-style:italic;color:var(--ink)">Your story <em style="color:var(--gold);font-style:italic">could be next.</em></h3>
-      <p style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--ink-dim);margin-bottom:1.8rem;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.7">Browse our catalogue and begin your own research journey — with same-day GTA delivery and cash-on-delivery payment.</p>
+      <h3 style="font-weight:500;font-size:clamp(1.5rem,2.6vw,2.1rem);margin-bottom:1rem;color:var(--ink);letter-spacing:-.025em;line-height:1.15">Your story <em style="font-style:normal;font-weight:700;color:var(--ink);background:linear-gradient(transparent 65%,color-mix(in srgb,var(--gold) 35%,transparent) 65%);padding:0 .1em">could be next.</em></h3>
+      <p style="font-family:'Inter',sans-serif;font-size:.85rem;color:var(--ink-dim);margin-bottom:1.8rem;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.7">Browse our catalogue and begin your own research journey — with same-day GTA delivery and cash-on-delivery payment.</p>
       <button class="btn primary" onclick="goPage('home');setTimeout(()=>scrollTo2('shop'),200)">Shop the Catalogue →</button>
     </div>
   `;
@@ -1699,8 +1865,8 @@ function setMode(mode){
 function renderGymMode(){
   return `
     <div style="margin-bottom:2rem;padding:1.5rem;background:var(--bg-2);border-left:3px solid var(--gold)">
-      <h3 style="font-size:1.3rem;font-weight:500;margin-bottom:.5rem;color:var(--ink)">Meet at a <em style="font-style:italic;color:var(--gold)">partner gym</em></h3>
-      <p style="font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink-dim);line-height:1.7;font-weight:500">We've partnered with 16 of the best gyms across the GTA. Choose a location convenient to your training schedule — our discreet courier meets you at the entrance during your booked time slot. No fees. Cash on delivery.</p>
+      <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:.5rem;color:var(--ink);letter-spacing:-.02em">Meet at a <em style="font-style:normal;color:var(--gold);font-weight:700">partner gym</em></h3>
+      <p style="font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-dim);line-height:1.7;font-weight:500">We've partnered with 16 of the best gyms across the GTA. Choose a location convenient to your training schedule — our discreet courier meets you at the entrance during your booked time slot. No fees. Cash on delivery.</p>
     </div>
     <div class="map-layout">
       <div class="map-wrap">
@@ -1723,14 +1889,14 @@ function renderGymMode(){
 function renderLocalMode(){
   return `
     <div style="margin-bottom:2rem;padding:1.5rem;background:var(--bg-2);border-left:3px solid var(--gold)">
-      <h3 style="font-size:1.3rem;font-weight:500;margin-bottom:.5rem;color:var(--ink)">Local <em style="font-style:italic;color:var(--gold)">next-day</em> delivery</h3>
-      <p style="font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink-dim);line-height:1.7;font-weight:500">Discreet, unmarked next-day delivery across the entire GTA. $15 flat fee, free on orders over $200. Order today, receive tomorrow.</p>
+      <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:.5rem;color:var(--ink);letter-spacing:-.02em">Local <em style="font-style:normal;color:var(--gold);font-weight:700">next-day</em> delivery</h3>
+      <p style="font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-dim);line-height:1.7;font-weight:500">Discreet, unmarked next-day delivery across the entire GTA. $15 flat fee, free on orders over $200. Order today, receive tomorrow.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem">
       <div style="padding:2rem;background:var(--bg-2);border:1px solid var(--line)">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ Delivery Zones</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ Delivery Zones</div>
         <h4 style="font-size:1.4rem;font-weight:500;margin-bottom:1rem;color:var(--ink)">Full GTA Coverage</h4>
-        <ul style="list-style:none;padding:0;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--ink-dim);font-weight:500;line-height:2">
+        <ul style="list-style:none;padding:0;font-family:'Inter',sans-serif;font-size:.85rem;color:var(--ink-dim);font-weight:500;line-height:2">
           <li>◆ Toronto (Downtown, Midtown, East/West)</li>
           <li>◆ Etobicoke · North York · Scarborough</li>
           <li>◆ Mississauga · Brampton · Oakville</li>
@@ -1738,9 +1904,9 @@ function renderLocalMode(){
         </ul>
       </div>
       <div style="padding:2rem;background:var(--bg-2);border:1px solid var(--line)">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ How It Works</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ How It Works</div>
         <h4 style="font-size:1.4rem;font-weight:500;margin-bottom:1rem;color:var(--ink)">Next-Day Standard</h4>
-        <ol style="list-style:none;padding:0;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink-dim);font-weight:500;line-height:1.7">
+        <ol style="list-style:none;padding:0;font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-dim);font-weight:500;line-height:1.7">
           <li style="display:flex;gap:.8rem;margin-bottom:.9rem"><span style="color:var(--gold);font-weight:700">01</span><span>Place your order before midnight</span></li>
           <li style="display:flex;gap:.8rem;margin-bottom:.9rem"><span style="color:var(--gold);font-weight:700">02</span><span>SMS confirmation with next-day window</span></li>
           <li style="display:flex;gap:.8rem;margin-bottom:.9rem"><span style="color:var(--gold);font-weight:700">03</span><span>Discreet courier delivers in unmarked packaging</span></li>
@@ -1757,14 +1923,14 @@ function renderLocalMode(){
 function renderShipMode(){
   return `
     <div style="margin-bottom:2rem;padding:1.5rem;background:var(--bg-2);border-left:3px solid var(--gold)">
-      <h3 style="font-size:1.3rem;font-weight:500;margin-bottom:.5rem;color:var(--ink)">Canada-wide <em style="font-style:italic;color:var(--gold)">discreet shipping</em></h3>
-      <p style="font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink-dim);line-height:1.7;font-weight:500">Outside the GTA? We ship across Canada via Canada Post Expedited and Xpresspost. Discreet, unmarked, tamper-evident packaging. Tracking number provided.</p>
+      <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:.5rem;color:var(--ink);letter-spacing:-.02em">Canada-wide <em style="font-style:normal;color:var(--gold);font-weight:700">discreet shipping</em></h3>
+      <p style="font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-dim);line-height:1.7;font-weight:500">Outside the GTA? We ship across Canada via Canada Post Expedited and Xpresspost. Discreet, unmarked, tamper-evident packaging. Tracking number provided.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem">
       <div style="padding:2rem;background:var(--bg-2);border:1px solid var(--line)">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ Shipping Rates</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ Shipping Rates</div>
         <h4 style="font-size:1.4rem;font-weight:500;margin-bottom:1.2rem;color:var(--ink)">Flat-Rate by Region</h4>
-        <div style="display:grid;grid-template-columns:1fr auto;gap:.6rem .8rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:500">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:.6rem .8rem;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500">
           <div style="color:var(--ink)">ON · QC (Expedited)</div><div style="color:var(--gold);font-weight:600">$15</div>
           <div style="color:var(--ink)">Atlantic Provinces</div><div style="color:var(--gold);font-weight:600">$20</div>
           <div style="color:var(--ink)">MB · SK · AB</div><div style="color:var(--gold);font-weight:600">$22</div>
@@ -1774,9 +1940,9 @@ function renderShipMode(){
         </div>
       </div>
       <div style="padding:2rem;background:var(--bg-2);border:1px solid var(--line)">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ Transit Times</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ Transit Times</div>
         <h4 style="font-size:1.4rem;font-weight:500;margin-bottom:1.2rem;color:var(--ink)">2 — 5 Business Days</h4>
-        <div style="display:grid;grid-template-columns:1fr auto;gap:.6rem .8rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:500">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:.6rem .8rem;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500">
           <div style="color:var(--ink)">Ontario · Quebec</div><div style="color:var(--ink-dim)">2 days</div>
           <div style="color:var(--ink)">Atlantic · Prairies</div><div style="color:var(--ink-dim)">3–4 days</div>
           <div style="color:var(--ink)">BC</div><div style="color:var(--ink-dim)">3–5 days</div>
@@ -1794,8 +1960,8 @@ function renderShipMode(){
 function renderPickupMode(){
   return `
     <div style="margin-bottom:2rem;padding:1.5rem;background:var(--bg-2);border-left:3px solid var(--gold)">
-      <h3 style="font-size:1.3rem;font-weight:500;margin-bottom:.5rem;color:var(--ink)">Visit the <em style="font-style:italic;color:var(--gold)">apothecary</em></h3>
-      <p style="font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink-dim);line-height:1.7;font-weight:500">Book a time and pick up in person at our Toronto location. By appointment only — address texted upon booking confirmation. No delivery fee.</p>
+      <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:.5rem;color:var(--ink);letter-spacing:-.02em">Visit the <em style="font-style:normal;color:var(--gold);font-weight:700">apothecary</em></h3>
+      <p style="font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink-dim);line-height:1.7;font-weight:500">Book a time and pick up in person at our Toronto location. By appointment only — address texted upon booking confirmation. No delivery fee.</p>
     </div>
     <div class="map-layout">
       <div class="map-wrap">
@@ -1803,13 +1969,13 @@ function renderPickupMode(){
         <div class="map-legend">LYRA · Queen West</div>
       </div>
       <div style="background:var(--bg-2);border:1px solid var(--line);padding:2rem">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ Visit Us</div>
-        <h3 style="font-size:1.8rem;font-weight:400;margin-bottom:.5rem;color:var(--ink);display:flex;align-items:center;gap:.5rem">LYRA <svg viewBox="0 0 32 32" fill="currentColor" style="width:18px;height:18px;color:var(--gold)"><path d="M16 0 L18.2 13.8 L32 16 L18.2 18.2 L16 32 L13.8 18.2 L0 16 L13.8 13.8 Z"/></svg><br/><em style="font-style:italic;color:var(--gold);font-weight:500;font-size:1.4rem">Queen West Apothecary</em></h3>
-        <p style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--ink-dim);line-height:1.7;margin-bottom:1.5rem;font-weight:500">Address sent via SMS after booking — privacy is part of the service.</p>
+        <div style="font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.28em;color:var(--gold);margin-bottom:1rem;font-weight:600;text-transform:uppercase">◆ Visit Us</div>
+        <h3 style="font-size:1.7rem;font-weight:600;margin-bottom:.5rem;color:var(--ink);display:flex;align-items:center;gap:.5rem;letter-spacing:-.025em">LYRA <svg viewBox="0 0 32 32" fill="currentColor" style="width:16px;height:16px;color:var(--gold)"><path d="M16 0 L18.2 13.8 L32 16 L18.2 18.2 L16 32 L13.8 18.2 L0 16 L13.8 13.8 Z"/></svg><br/><em style="font-style:normal;color:var(--gold);font-weight:600;font-size:1.3rem;letter-spacing:-.015em">Queen West Apothecary</em></h3>
+        <p style="font-family:'Inter',sans-serif;font-size:.85rem;color:var(--ink-dim);line-height:1.7;margin-bottom:1.5rem;font-weight:500">Address sent via SMS after booking — privacy is part of the service.</p>
 
         <div style="padding-top:1.5rem;border-top:1px solid var(--line);margin-bottom:1.5rem">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--ink-faint);font-weight:600;margin-bottom:.4rem;text-transform:uppercase">Hours</div>
-          <div style="display:grid;grid-template-columns:1fr auto;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink);font-weight:500">
+          <div style="font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.22em;color:var(--ink-faint);font-weight:600;margin-bottom:.4rem;text-transform:uppercase">Hours</div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:.4rem;font-family:'Inter',sans-serif;font-size:.82rem;color:var(--ink);font-weight:500">
             <div>Mon — Fri</div><div>10AM — 8PM</div>
             <div>Saturday</div><div>10AM — 6PM</div>
             <div>Sunday</div><div>12PM — 5PM</div>
@@ -1817,8 +1983,8 @@ function renderPickupMode(){
         </div>
 
         <div style="padding-top:1.5rem;border-top:1px solid var(--line);margin-bottom:1.5rem">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--ink-faint);font-weight:600;margin-bottom:.6rem;text-transform:uppercase">What to Expect</div>
-          <ul style="list-style:none;padding:0;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--ink-dim);font-weight:500;line-height:1.9">
+          <div style="font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.22em;color:var(--ink-faint);font-weight:600;margin-bottom:.6rem;text-transform:uppercase">What to Expect</div>
+          <ul style="list-style:none;padding:0;font-family:'Inter',sans-serif;font-size:.8rem;color:var(--ink-dim);font-weight:500;line-height:1.9">
             <li>◆ Private consultation space</li>
             <li>◆ Full product inspection</li>
             <li>◆ COA review on request</li>
@@ -1840,7 +2006,7 @@ function initMap(){
   if(typeof L === 'undefined'){
     mapEl.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:1rem;padding:2rem;text-align:center">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gold);animation:spin 1.2s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);font-weight:600">Loading map…</div>
+      <div style="font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);font-weight:600">Loading map…</div>
     </div>
     <style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
   }
@@ -1877,7 +2043,7 @@ function initPickupMap(){
   const el = document.getElementById('pickupMap');
   if(!el) return;
   if(typeof L === 'undefined'){
-    el.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--ink-dim);font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600">Loading map…</div>`;
+    el.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--ink-dim);font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600">Loading map…</div>`;
   }
 
   onLeafletReady(() => {
@@ -1986,7 +2152,7 @@ function renderGymList(){
   if(countEl) countEl.textContent = filtered.length;
 
   if(filtered.length === 0){
-    list.innerHTML = `<div style="padding:3rem 1.5rem;text-align:center;color:var(--ink-dim);font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:500">No locations match your search.</div>`;
+    list.innerHTML = `<div style="padding:3rem 1.5rem;text-align:center;color:var(--ink-dim);font-family:'Inter',sans-serif;font-size:.85rem;font-weight:500">No locations match your search.</div>`;
     return;
   }
 
@@ -2061,7 +2227,7 @@ function renderBookingPanel(g){
             </button>
           `).join('')}
         </div>
-        <p style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-faint);line-height:1.6;font-weight:500;margin-top:.8rem">◆ Same-day available for orders placed before 3PM</p>
+        <p style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-faint);line-height:1.6;font-weight:500;margin-top:.8rem">◆ Same-day available for orders placed before 3PM</p>
       </div>
 
       <div class="bp-section">
@@ -2296,10 +2462,10 @@ function renderCheckout(){
   if(isGymMeetup){
     addressFields = `
       <div style="padding:1rem;background:color-mix(in srgb, var(--gold) 10%, transparent);border:1px solid var(--gold);margin-bottom:1rem">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.4rem">◆ Meeting at</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.4rem">◆ Meeting at</div>
         <div style="font-size:1.1rem;font-weight:500;color:var(--ink);margin-bottom:.2rem">${gymMeetup.gym.name}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--ink-dim);font-weight:500">${gymMeetup.gym.addr}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--gold);font-weight:600;margin-top:.5rem">${new Date(gymMeetup.date).toLocaleDateString('en',{weekday:'short',month:'short',day:'numeric'})} · ${gymMeetup.slot}</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.78rem;color:var(--ink-dim);font-weight:500">${gymMeetup.gym.addr}</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.78rem;color:var(--gold);font-weight:600;margin-top:.5rem">${new Date(gymMeetup.date).toLocaleDateString('en',{weekday:'short',month:'short',day:'numeric'})} · ${gymMeetup.slot}</div>
       </div>
       <div class="field"><label>Full Name</label><input id="f_name" placeholder="Your name"/></div>
       <div class="field"><label>Phone</label><input id="f_phone" placeholder="(416) ..."/></div>
@@ -2353,10 +2519,10 @@ function renderCheckout(){
     timingBlock = `
       <div class="co-step">
         <h4><span class="num">3</span> Confirmed Time</h4>
-        <div style="font-family:'Fraunces',serif;font-size:1.05rem;color:var(--ink);font-weight:500;padding:.9rem 1rem;background:var(--bg);border:1px solid var(--gold);margin-bottom:.6rem">
+        <div style="font-family:'Satoshi','Inter',sans-serif;font-size:1.05rem;color:var(--ink);font-weight:500;padding:.9rem 1rem;background:var(--bg);border:1px solid var(--gold);margin-bottom:.6rem">
           ${new Date(gymMeetup.date).toLocaleDateString('en',{weekday:'long',month:'long',day:'numeric'})} at ${gymMeetup.slot}
         </div>
-        <p style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ink-dim);line-height:1.6;font-weight:500">◆ To change, <a onclick="window._gymMeetup=null;closeAll();goPage('delivery')" style="color:var(--gold);cursor:pointer;text-decoration:underline">start over</a>.</p>
+        <p style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-dim);line-height:1.6;font-weight:500">◆ To change, <a onclick="window._gymMeetup=null;closeAll();goPage('delivery')" style="color:var(--gold);cursor:pointer;text-decoration:underline">start over</a>.</p>
       </div>
     `;
   } else if(deliveryMethod === "local"){
@@ -2364,9 +2530,9 @@ function renderCheckout(){
       <div class="co-step">
         <h4><span class="num">3</span> Delivery Window</h4>
         <div style="padding:1rem;background:var(--bg);border:1px solid var(--gold)">
-          <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500;color:var(--gold);margin-bottom:.3rem">Next-Day Delivery</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--ink-dim);font-weight:500">${nextDayLabel}</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ink-faint);margin-top:.5rem;font-weight:500">Driver will text 30 min before arrival</div>
+          <div style="font-family:'Satoshi','Inter',sans-serif;font-size:1.1rem;font-weight:500;color:var(--gold);margin-bottom:.3rem">Next-Day Delivery</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.85rem;color:var(--ink-dim);font-weight:500">${nextDayLabel}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-faint);margin-top:.5rem;font-weight:500">Driver will text 30 min before arrival</div>
         </div>
         <div class="field" style="margin-top:.9rem"><label>Notes for driver (optional)</label><textarea id="f_notes" rows="2" placeholder="Gate code, delivery instructions..."></textarea></div>
       </div>
@@ -2376,8 +2542,8 @@ function renderCheckout(){
       <div class="co-step">
         <h4><span class="num">3</span> Estimated Transit</h4>
         <div style="padding:1rem;background:var(--bg);border:1px solid var(--line)">
-          <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:500;color:var(--gold);margin-bottom:.3rem">2 — 5 Business Days</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--ink-dim);font-weight:500">Canada Post Expedited · Tracking provided</div>
+          <div style="font-family:'Satoshi','Inter',sans-serif;font-size:1.1rem;font-weight:500;color:var(--gold);margin-bottom:.3rem">2 — 5 Business Days</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.78rem;color:var(--ink-dim);font-weight:500">Canada Post Expedited · Tracking provided</div>
         </div>
         <div class="field" style="margin-top:.9rem"><label>Special instructions (optional)</label><textarea id="f_notes" rows="2" placeholder="Buzzer code, leave with concierge..."></textarea></div>
       </div>
@@ -2400,9 +2566,9 @@ function renderCheckout(){
 
   let paymentNote = '';
   if(paymentMethod === 'cod'){
-    paymentNote = `<p style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--ink-dim);margin-top:.7rem;line-height:1.6;font-weight:500">◆ Driver carries $20 float. Please have exact change if possible.</p>`;
+    paymentNote = `<p style="font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-dim);margin-top:.7rem;line-height:1.6;font-weight:500">◆ Driver carries $20 float. Please have exact change if possible.</p>`;
   } else if(paymentMethod === 'etransfer'){
-    paymentNote = `<p style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--ink-dim);margin-top:.7rem;line-height:1.6;font-weight:500">◆ E-transfer details will be texted to you immediately after order placement. Send before fulfillment.</p>`;
+    paymentNote = `<p style="font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-dim);margin-top:.7rem;line-height:1.6;font-weight:500">◆ E-transfer details will be texted to you immediately after order placement. Send before fulfillment.</p>`;
   } else { // crypto
     const w = CRYPTO_WALLETS[cryptoCoin];
     paymentNote = `
@@ -2416,10 +2582,10 @@ function renderCheckout(){
           `).join('')}
         </div>
         <div style="background:var(--bg);border:1px solid var(--gold);padding:1rem">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.4rem">◆ Send ${w.name}</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-faint);margin-bottom:.5rem;font-weight:500">${w.network}</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--ink);font-weight:500;word-break:break-all;background:var(--bg-2);padding:.6rem .7rem;border:1px dashed var(--line-strong);user-select:all;cursor:copy" onclick="copyCryptoAddr('${w.addr}')" title="Click to copy">${w.addr}</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-dim);margin-top:.5rem;line-height:1.5;font-weight:500">Send <strong style="color:var(--gold)">$${total} CAD</strong> equivalent. Network confirmations may take 10–30 min.</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.4rem">◆ Send ${w.name}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-faint);margin-bottom:.5rem;font-weight:500">${w.network}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink);font-weight:500;word-break:break-all;background:var(--bg-2);padding:.6rem .7rem;border:1px dashed var(--line-strong);user-select:all;cursor:copy" onclick="copyCryptoAddr('${w.addr}')" title="Click to copy">${w.addr}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.78rem;color:var(--ink-dim);margin-top:.5rem;line-height:1.55;font-weight:400">Send <strong style="color:var(--gold);font-weight:600">$${total} CAD</strong> equivalent. Network confirmations may take 10–30 min.</div>
         </div>
         <div class="field" style="margin-top:.9rem"><label>Transaction Hash (optional, after sending)</label><input id="f_txhash" placeholder="0x... or transaction ID" style="font-size:.78rem"/></div>
       </div>
@@ -2430,7 +2596,7 @@ function renderCheckout(){
   const methodBlock = isGymMeetup ? `
     <div class="co-step">
       <h4><span class="num">1</span> Method</h4>
-      <div style="padding:.85rem 1rem;background:var(--bg);border:1px solid var(--gold);font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:500">
+      <div style="padding:.85rem 1rem;background:var(--bg);border:1px solid var(--gold);font-family:'Inter',sans-serif;font-size:.78rem;color:var(--ink);font-weight:500">
         ◆ <span style="color:var(--gold);font-weight:600">Gym Meetup</span> selected — ${gymMeetup.gym.name.split(' — ')[0]}
       </div>
     </div>
@@ -2530,17 +2696,17 @@ function placeOrder(){
       <p>Your order has been placed.${paymentMsg}</p>
       <div class="order-no">${orderNo}</div>
       <div style="text-align:left;background:var(--bg);border:1px solid var(--line);padding:1.3rem;margin-top:1rem">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;font-weight:600">${sectionLabel}</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;font-weight:600">${sectionLabel}</div>
         <div style="font-size:1.15rem;margin-bottom:.3rem;color:var(--ink);font-weight:500">${dateLabel}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--ink-dim);margin-bottom:1.1rem;font-weight:500">${timeLabel}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--ink-dim);line-height:1.7;font-weight:500">
+        <div style="font-family:'Inter',sans-serif;font-size:.85rem;color:var(--ink-dim);margin-bottom:1.1rem;font-weight:500">${timeLabel}</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.78rem;color:var(--ink-dim);line-height:1.7;font-weight:500">
           ${cart.map(c=>{const p=PRODUCTS.find(x=>x.id===c.id);return `${c.qty}× ${p.name}`}).join('<br/>')}
         </div>
-        <div style="border-top:1px solid var(--line);margin-top:1.1rem;padding-top:.9rem;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:500">
+        <div style="border-top:1px solid var(--line);margin-top:1.1rem;padding-top:.9rem;display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:500">
           <span>Total</span><strong style="color:var(--gold);font-weight:700">$${total} CAD</strong>
         </div>
         ${paymentMethod === 'crypto' && cryptoTxHash ? `
-          <div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-dim);font-weight:500">
+          <div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line);font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-dim);font-weight:500">
             <div style="color:var(--gold);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;margin-bottom:.3rem">Tx Hash</div>
             <div style="word-break:break-all">${cryptoTxHash}</div>
           </div>
